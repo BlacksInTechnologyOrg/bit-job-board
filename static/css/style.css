@@ -1,0 +1,146 @@
+header {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3f4c6b+2,3f4c6b+100&0.36+48,0.68+100 */
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
+
+    /* Chrome10-25,Safari5.1-6 */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(2%, rgba(63, 76, 107, 0.36)), color-stop(48%, rgba(63, 76, 107, 0.36)), to(rgba(63, 76, 107, 0.68)));
+    background: -o-linear-gradient(top, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
+    background: linear-gradient(to bottom, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
+
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c3f4c6b', endColorstr='#ad3f4c6b',GradientType=0 );
+
+    /* IE6-9 */
+}
+
+.navbar-nav {
+    -ms-flex-direction: row;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+}
+
+/* Profile Page*/
+html,
+body {
+    height: 100%;
+}
+
+#wrapper {
+    padding: 0px;
+    height: 100%;
+}
+
+#sbrow {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+}
+
+#profilecontentwrapper,
+#sbwrapper {
+    padding: 0px;
+}
+
+/* sidebar */
+#sbrwrapper {
+    height: 100%;
+}
+
+.profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+    height: 100%;
+}
+
+.profile-userpic img {
+    float: none;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    border-radius: 50% !important;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+}
+
+.profile-usermenu {
+    margin-top: 30px;
+}
+
+.profile-usermenu ul.nav {
+    display: block;
+    text-align: center;
+    padding: 0 20% 0 20%;
+}
+
+.profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+    display: block;
+}
+
+.profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+}

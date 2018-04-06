@@ -1,0 +1,64 @@
+/********* GENERAL STYLES (USE MANAGE STYLESHEETS TO UNHOOK IF CONFLICTS OCCUR WITH YOUR BASIC STYLES /*********
+
+/* general styles */
+
+body {
+  background: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.9;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+a {
+  outline: medium none !important;
+}
+
+button {
+  outline: medium none !important;
+}
+
+p {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 34px;
+  line-height: 54px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 26px;
+}
+
+h4 {
+  font-size: 22px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+.btn-default {
+  border-radius: 40px;
+  padding: 12px 24px;
+  border: 1px solid #b7b7b7;
+}
+
+.btn-default:hover {
+  background: #b7b7b7;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}

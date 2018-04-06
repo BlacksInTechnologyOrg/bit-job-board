@@ -1,0 +1,27 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+    {% assets filters="cssmin", output="gen/packed.css", "css/style.css", "components/pg.chocka-blocks/css/cb-general.css", "components/pg.chocka-blocks/css/cb-style.css", "components/pg.chocka-blocks/css/owl.carousel.css" %}
+          <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
+    {% endassets %}
+{% endblock %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+    {{ content }}
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+    {%  assets filters="jsmin", output="gen/packed.js", "js/popper.js", "components/pg.chocka-blocks/js/cb-main.js"  %}
+        <script type="text/javascript" href="{{ ASSET_URL }}"></script>
+    {%  endassets %}
+{% endblock %}

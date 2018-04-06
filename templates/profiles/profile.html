@@ -1,0 +1,181 @@
+{% extends "profiles/index.html" %}
+
+{% block title %}
+Profile Management
+{% endblock %}
+
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<div class="container-fluid" id="wrapper" data-pg-collapsed>
+    <div class="row" id="sbrow">
+        <div class="col-md-3 bg-dark col-lg-3" id="sbwrapper">
+            <div class="profile-sidebar bg-dark">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="{{ profilepicture }}" class="img-responsive d-block" alt="">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        {{ current_user.first_name }} {{ current_user.last_name }}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        Developer
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                     <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+
+                            {{ render_field(form.profilepic,class='form-control', id="profilepic") }}
+
+                        </div>
+                        <input type="submit" value="Upload">
+                     </form>
+                    <ul class="nav">
+                        <li class="active">
+                            <a href="#"> <i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+                        </li>
+                        <li>
+                            <a href="#"> <i class="glyphicon glyphicon-user"></i>
+							Account Settings </a>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank"> <i class="glyphicon glyphicon-ok"></i>
+							Tasks </a>
+                        </li>
+                        <li>
+                            <a href="#"> <i class="glyphicon glyphicon-flag"></i>
+							Help </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+        <div class="col-md-9" id="profilecontentwrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Brand</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler368" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggler368">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                    Dropdown link                                </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+            <div class="container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#offer" data-toggle="tab" role="tab" aria-controls="offer-tab" aria-selected="true">Accepted Offers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#currentwork" data-toggle="tab" role="tab" aria-controls="currentwork-tab" aria-selected="false">Contract Bids</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pastwork" data-toggle="tab" role="tab" aria-controls="pastwork-tab" aria-expanded="false">Past Work</a>
+                    </li>
+                </ul>
+                <div class="w-100 tab-content">
+                        <table class="table tab-pane active" role="tabpanel" id="offer" aria-labelledby="offer-tab">
+                            <thead>
+                                <tr>
+                                    <th>Contracts</th>
+                                    <th>Accepted Date</th>
+                                    <th>Payout Upon Completion</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {%  for contract in contractlist %}
+                                <tr>
+                                    <th scope="row"><a href="#">{{ contract['title'] }}</a></th>
+                                    <td>{{ contract['accepted_date']['$date']|datetimeformat}}</td>
+                                    <td>{{ contract['']}}</td>
+                                    <td>{{ contract['status']}}</td>
+                                </tr>
+                            {%  endfor %}
+                            </tbody>
+                        </table>
+                        <table class="table tab-pane" role="tabpanel" id="currentwork" aria-labelledby="curentwork-tab">
+                            <thead>
+                                <tr>
+                                    <th>Project Name2</th>
+                                    <th># of Bids</th>
+                                    <th>My Bids</th>
+                                    <th>Username</th>
+                                    <th>Username</th>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Project 1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table tab-pane" role="tabpanel" id="pastwork" aria-labelledby="pastwork-tab">
+                            <thead>
+                                <tr>
+                                    <th>Project Name3</th>
+                                    <th># of Bids</th>
+                                    <th>My Bids</th>
+                                    <th>Username</th>
+                                    <th>Username</th>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Project 1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                    <td>@mdo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
