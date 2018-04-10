@@ -1,3 +1,16 @@
+:root {
+  --dark-primary-color: #333333;
+  --default-primary-color: #EF5342;
+  --light-primary-color: #F2F2F2;
+  --accent-color: #777777;
+  --primary-text-color: #333333;
+  --secondary-text-color: #FFFFFF;
+  --tertiary-text-color: #EF5342;
+  --divider-color: #E1E1E1;
+
+}
+
+
 header {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3f4c6b+2,3f4c6b+100&0.36+48,0.68+100 */
     /* FF3.6-15 */
@@ -14,43 +27,147 @@ header {
     /* IE6-9 */
 }
 
-.navbar-nav {
-    -ms-flex-direction: row;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    flex-direction: row;
-}
-
-/* Profile Page*/
-html,
-body {
+/* Global */
+html, body
+{
     height: 100%;
 }
 
+/* Navigation */
+#navigation2 .navbar {
+  background: var(--dark-primary-color);
+  padding-bottom: 10px;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--accent-color);
+  margin-bottom: 0;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#navigation2 .navbar-brand img {
+  height: 38px;
+}
+
+@media (max-width: 1000px) {
+  #navigation2 .navbar-brand img {
+    height: 24px;
+  }
+}
+
+#navigation2 .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+  background: none;
+  color: var(--secondary-text-color);
+  border: 0;
+}
+
+#navigation2 .navbar-default .navbar-nav > .active {
+  color: var(--secondary-text-color);
+  background: none;
+  border-bottom: 2px solid var(--light-primary-color);
+}
+
+#navigation2 .navbar-default .navbar-nav > .active > a {
+  color: var(--secondary-text-color) !important;
+  background: none;
+  over
+}
+
+#navigation2 .navbar-default .navbar-nav > .active > a:hover,
+#navigation2 .navbar-default .navbar-nav > .active > a:focus {
+  color: #fff;
+  background: none;
+}
+
+#navigation2 .navbar-default .navbar-nav > li {
+}
+
+#navigation2 .navbar-default .navbar-nav > li:hover {
+  background: var(--default-primary-color);
+  color: var(--primary-text-color);
+  border-bottom: 2px solid var(--light-primary-color);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#navigation2 .navbar-default .navbar-nav > li:last-child {
+}
+
+#navigation2 .navbar-default .navbar-nav > li > a {
+  color: var(--secondary-text-color) !important;
+  background: none;
+}
+
+#navigation2 .navbar-default .navbar-nav > li > a:hover,
+#navigation2 .navbar-default .navbar-nav > li > a:focus {
+  color: var(--secondary-text-color) !important;
+  background: none;
+}
+
+
+#navigation2 .navbar-nav > li > .dropdown-menu {
+  background-color: var(--dark-primary-color);
+  color: var(--secondary-text-color);
+}
+
+#navigation2 .navbar-nav > li > .dropdown-menu a {
+  color: var(--secondary-text-color);
+}
+
+#navigation2 .dropdown-menu li > a:hover, #navigation2 .dropdown-menu li > a:focus, #navigation2 .dropdown-submenu:hover > a {
+  background-color: var(--default-primary-color);
+  color: var(--secondary-text-color);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/* Profile Page*/
 #wrapper {
-    padding: 0px;
+    padding: 0;
     height: 100%;
 }
 
 #sbrow {
     height: 100%;
-    width: 100%;
     margin: 0px;
 }
 
 #profilecontentwrapper,
 #sbwrapper {
     padding: 0px;
-}
-
-/* sidebar */
-#sbrwrapper {
     height: 100%;
 }
 
+.nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+}
+
+.nav-pills {
+    text-align:center;
+}
+
+.bit-panel {
+    padding: 20px;
+    margin: 0 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: var(--secondary-text-color);
+
+}
+
+/* sidebar */
 .profile-sidebar {
     padding: 20px 0 10px 0;
-    background: #fff;
+    background: var(--dark-primary-color);
     height: 100%;
 }
 
@@ -68,7 +185,7 @@ body {
 }
 
 .profile-usertitle-name {
-    color: #5a7391;
+    color: var(--secondary-text-color);
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 7px;
@@ -76,7 +193,7 @@ body {
 
 .profile-usertitle-job {
     text-transform: uppercase;
-    color: #5b9bd1;
+    color: var(--secondary-text-color);
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 15px;
@@ -110,7 +227,7 @@ body {
 }
 
 .profile-usermenu ul li {
-    border-bottom: 1px solid #f0f4f7;
+    border-bottom: 1px solid var(--accent-color);
 }
 
 .profile-usermenu ul li:last-child {
@@ -118,7 +235,7 @@ body {
 }
 
 .profile-usermenu ul li a {
-    color: #93a3b5;
+    color: var(--secondary-text-color);
     font-size: 14px;
     font-weight: 400;
     display: block;
@@ -130,8 +247,8 @@ body {
 }
 
 .profile-usermenu ul li a:hover {
-    background-color: #fafcfd;
-    color: #5b9bd1;
+    background-color: var(--light-primary-color);
+    color: var(--tertiary-text-color);
 }
 
 .profile-usermenu ul li.active {
@@ -139,8 +256,19 @@ body {
 }
 
 .profile-usermenu ul li.active a {
-    color: #5b9bd1;
-    background-color: #f6f9fb;
-    border-left: 2px solid #5b9bd1;
+    color: var(--primary-text-color);
+    background-color: var(--default-primary-color);
+    border-left: 2px solid var(--accent-color);
     margin-left: -2px;
+}
+
+/* Profile Content */
+#profilecontentwrapper {
+    background-color: var(--light-primary-color);
+}
+
+.profile-tablehead {
+    padding: 20px 21px 20px 20px !important;
+    text-align: left;
+
 }
