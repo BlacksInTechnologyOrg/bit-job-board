@@ -12,6 +12,7 @@
   {% endif -%}
   
     {%- if current_user.is_authenticated -%}
+      <li><a href="{{ url_for('contracts.create')}}"></a>Post Contract</li>
       <li><a href="{{ url_for('security.logout') }}">Logout</a></li>
     {%- else -%}
       {% if security.registerable %}

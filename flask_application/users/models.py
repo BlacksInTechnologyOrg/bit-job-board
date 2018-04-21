@@ -19,8 +19,10 @@ class User(FlaskDocument, UserMixin):
     roles = db.ListField(db.ReferenceField(Role), default=[])
 
 class Contract(FlaskDocument):
+    contract_id = db.IntField(primary_key=True)
     author = db.ReferenceField(User, reverse_delete_rule=2)
     type = db.ListField(default=[])
+    bidders = db.ListField(default=[])
     title = db.StringField(max_length=255)
     description = db.StringField(max_length=255)
     publishdate = db.DateTimeField()

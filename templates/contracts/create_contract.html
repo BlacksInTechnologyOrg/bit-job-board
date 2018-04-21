@@ -1,0 +1,21 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends "contracts/index.html" %}
+
+{% block title %}
+Contract Form
+{% endblock %}
+
+{% block form_content %}
+    <h1>Contract Form</h1>
+    <form action="{{ url_for('contracts.contract ) }}" method="POST" name="create_contract_form">
+        {{ create_contract_form.hidden_tag() }}
+
+        {{ wtf.form_errors(create_contract_form) }}
+
+        {{ wtt.form_field(create_contract_form.title) }}
+        {{ wtt.form_field(create_contract_form.type) }}
+        {{ wtt.form_field(create_contract_form.description) }}
+        {{ wtt.form_field(create_contract_form.submit) }}
+    </form>
+{% endblock %}
