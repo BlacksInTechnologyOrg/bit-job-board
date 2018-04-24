@@ -1,131 +1,115 @@
 :root {
-  --dark-primary-color: #333333;
-  --default-primary-color: #EF5342;
-  --light-primary-color: #F2F2F2;
-  --accent-color: #777777;
-  --primary-text-color: #333333;
-  --secondary-text-color: #FFFFFF;
-  --tertiary-text-color: #EF5342;
-  --divider-color: #E1E1E1;
-
-}
-
-
-header {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3f4c6b+2,3f4c6b+100&0.36+48,0.68+100 */
-    /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
-
-    /* Chrome10-25,Safari5.1-6 */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(2%, rgba(63, 76, 107, 0.36)), color-stop(48%, rgba(63, 76, 107, 0.36)), to(rgba(63, 76, 107, 0.68)));
-    background: -o-linear-gradient(top, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
-    background: linear-gradient(to bottom, rgba(63, 76, 107, 0.36) 2%, rgba(63, 76, 107, 0.36) 48%, rgba(63, 76, 107, 0.68) 100%);
-
-    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c3f4c6b', endColorstr='#ad3f4c6b',GradientType=0 );
-
-    /* IE6-9 */
+    --dark-primary-color: #333333;
+    --default-primary-color: #EF5342;
+    --light-primary-color: #F2F2F2;
+    --accent-color: #777777;
+    --primary-text-color: #333333;
+    --secondary-text-color: #FFFFFF;
+    --tertiary-text-color: #EF5342;
+    --divider-color: #E1E1E1;
 }
 
 /* Global */
-html, body
-{
+html,
+body {
     height: 100%;
 }
 
 /* Navigation */
 #navigation2 .navbar {
-  background: var(--dark-primary-color);
-  padding-bottom: 10px;
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid var(--accent-color);
-  margin-bottom: 0;
-  font-weight: 400;
-  letter-spacing: 1px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
+    background: var(--dark-primary-color);
+    padding-bottom: 10px;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid var(--accent-color);
+    margin-bottom: 0;
+    font-weight: 400;
+    letter-spacing: 1px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 #navigation2 .navbar-brand img {
-  height: 38px;
+    height: 38px;
 }
 
 @media (max-width: 1000px) {
-  #navigation2 .navbar-brand img {
-    height: 24px;
-  }
+    #navigation2 .navbar-brand img {
+        height: 24px;
+    }
 }
 
-#navigation2 .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-  background: none;
-  color: var(--secondary-text-color);
-  border: 0;
+#navigation2 .navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+    background: none;
+    color: var(--secondary-text-color);
+    border: 0;
 }
 
 #navigation2 .navbar-default .navbar-nav > .active {
-  color: var(--secondary-text-color);
-  background: none;
-  border-bottom: 2px solid var(--light-primary-color);
+    color: var(--secondary-text-color);
+    background: none;
+    border-bottom: 2px solid var(--light-primary-color);
 }
 
 #navigation2 .navbar-default .navbar-nav > .active > a {
-  color: var(--secondary-text-color) !important;
-  background: none;
-  over
+    color: var(--secondary-text-color) !important;
+    background: none;
 }
 
 #navigation2 .navbar-default .navbar-nav > .active > a:hover,
 #navigation2 .navbar-default .navbar-nav > .active > a:focus {
-  color: #fff;
-  background: none;
+    color: #fff;
+    background: none;
 }
 
 #navigation2 .navbar-default .navbar-nav > li {
 }
 
 #navigation2 .navbar-default .navbar-nav > li:hover {
-  background: var(--default-primary-color);
-  color: var(--primary-text-color);
-  border-bottom: 2px solid var(--light-primary-color);
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+    background: var(--default-primary-color);
+    color: var(--primary-text-color);
+    border-bottom: 2px solid var(--light-primary-color);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 #navigation2 .navbar-default .navbar-nav > li:last-child {
 }
 
 #navigation2 .navbar-default .navbar-nav > li > a {
-  color: var(--secondary-text-color) !important;
-  background: none;
+    color: var(--secondary-text-color) !important;
+    background: none;
 }
 
 #navigation2 .navbar-default .navbar-nav > li > a:hover,
 #navigation2 .navbar-default .navbar-nav > li > a:focus {
-  color: var(--secondary-text-color) !important;
-  background: none;
+    color: var(--secondary-text-color) !important;
+    background: none;
 }
 
-
 #navigation2 .navbar-nav > li > .dropdown-menu {
-  background-color: var(--dark-primary-color);
-  color: var(--secondary-text-color);
+    background-color: var(--dark-primary-color);
+    color: var(--secondary-text-color);
 }
 
 #navigation2 .navbar-nav > li > .dropdown-menu a {
-  color: var(--secondary-text-color);
+    color: var(--secondary-text-color);
 }
 
-#navigation2 .dropdown-menu li > a:hover, #navigation2 .dropdown-menu li > a:focus, #navigation2 .dropdown-submenu:hover > a {
-  background-color: var(--default-primary-color);
-  color: var(--secondary-text-color);
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+#navigation2 .dropdown-menu li > a:hover,
+#navigation2 .dropdown-menu li > a:focus,
+#navigation2 .dropdown-submenu:hover > a {
+    background-color: var(--default-primary-color);
+    color: var(--secondary-text-color);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 /* Profile Page*/
@@ -145,15 +129,33 @@ html, body
     height: 100%;
 }
 
-.nav-pills > li {
-    float:none;
-    display:inline-block;
-    *display:inline; /* ie7 fix */
-     zoom:1; /* hasLayout ie7 trigger */
+.navigation {
+    text-align: center;
+    padding: 0;
+    list-style: none;
 }
 
-.nav-pills {
-    text-align:center;
+.navigation li {
+    margin: 20px 30px;
+    padding: 0;
+    display: inline-block;
+}
+
+.navigation li a {
+    padding: 20px 30px;
+    color: var(--dark-primary-color);
+}
+
+.navigation li.active a {
+    background-color: var(--default-primary-color);
+    color: var(--dark-primary-color);
+}
+
+.navigation li:hover a {
+    padding: 20px 30px;
+    background-color: var(--divider-color);
+    transition: 0.5s; /* delays for 1 second */
+	-webkit-transition: 0.5s; /* for Safari & Chrome */
 }
 
 .bit-panel {
@@ -161,7 +163,46 @@ html, body
     margin: 0 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: var(--secondary-text-color);
+}
 
+#custom-search-input .input-group{
+    margin: 20px 0px 20px 50px;
+
+}
+
+#custom-search-input .search-query {
+    padding-right: 3px;
+    padding-right: 4px \9;
+    padding-left: 3px;
+    padding-left: 4px \9;
+
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#custom-search-input button {
+    border: 0;
+    background: var(--dark-primary-color);
+
+    /** belows styles are working good */
+
+
+
+
+
+    /* IE7-8 doesn't have border-radius, so don't indent the padding */
+    margin-bottom: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: var(--default-primary-color);
+}
+
+.search-query:focus + button {
+    z-index: 3;
 }
 
 /* sidebar */
@@ -267,8 +308,8 @@ html, body
     background-color: var(--light-primary-color);
 }
 
-.profile-tablehead {
-    padding: 20px 21px 20px 20px !important;
-    text-align: left;
 
+
+.profile-tablehead {
+    text-align: left;
 }

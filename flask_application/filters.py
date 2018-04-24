@@ -21,7 +21,5 @@ def time_ago(value):
 
 @app.template_filter('datetimeformat')
 def datetimeformat(value):
-    print(value)
     newdate = datetime.datetime.fromtimestamp(value/1000).strftime('%Y-%m-%d')
-    print(newdate)
     return newdate
