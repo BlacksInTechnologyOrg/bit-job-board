@@ -6,7 +6,6 @@ from flask_login import current_user
 def uploadprofilepic(file, user,acl="public-read"):
 
     file.filename = current_user.username + "_profilepic.jpg"
-    print(file.filename)
     try:
         s3 = boto3.client('s3')
         s3.upload_fileobj(file,
