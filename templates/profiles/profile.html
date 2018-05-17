@@ -6,6 +6,7 @@ Profile Management
 
 {% block content %}
 {% from "_formhelpers.html" import render_field %}
+{% from "_formhelpers.html" import message_modal %}
 <div class="container-fluid" id="wrapper" data-pg-collapsed>
     <div class="row" id="sbrow">
         <div class="col-md-3 col-lg-3" id="sbwrapper">
@@ -218,26 +219,37 @@ Profile Management
                     </div>
                 </div>
                 <div class="bit-panel tab-pane" id="maintab-inbox" role="tab-panel" aria-labelledby="maintab-inbox-tab">
-                    <table class="table">
+                    <table class="table" id="inbox">
                                 <thead class="text-center">
                                     <tr>
                                         <th class="profile-tablehead">User</th>
+                                        <th class="profile-tablehead">Subject</th>
                                         <th class="profile-tablehead">Status</th>
                                         <th class="profile-tablehead">Date</th>
                                         <th class="profile-tablehead"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {%  for contract in contractlist %}
+                                {%  for message in messages %}
                                     <tr>
-                                        <th scope="row"><a href="#">{{ contract['title'] }}</a></th>
-                                        <td>{{ contract['accepted_date']['$date']|datetimeformat}}</td>
-                                        <td>{{ contract['']}}</td>
-                                        <td>{{ contract['status']}}</td>
+                                        <div class="checkbox"><input type="checkbox" value=""></div>
+                                        {% if current_user.username == message["recipient"] %}
+                                        <th scope="row"><a href="/profile">{{ message["author"] }}</a></th>
+                                        {% else %}
+                                        <th scope="row"><a href="/profile">{{ message["recipient"] }}</a></th>
+                                        {% endif %}
+                                        <td>{{ message["subject"] }}</td>
+                                        <td>{{ message["content"]|truncate(20, true) }}</td>
+                                        <td>{{ message["modified_at"]["$date"]|datetimeformat}}</td>
                                     </tr>
+
                                 {%  endfor %}
                                 </tbody>
-                            </table>
+                    </table>
+                    <!-- Button trigger modal -->
+                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalMessage">
+                      <span class="glyphicon glyphicon-envelope"></span> Message
+                    </button>
                 </div>
                 <div class="bit-panel tab-pane" id="maintab-4" role="tab-panel" aria-labelledby="maintab-4-tab">
 
@@ -246,4 +258,5 @@ Profile Management
         </div>
     </div>
 </div>
+{{ message_modal() }}
 {% endblock %}

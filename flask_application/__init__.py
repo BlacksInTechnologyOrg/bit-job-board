@@ -59,11 +59,14 @@ Bootstrap(app)
 
 # Assets
 from flask_assets import Environment
+from flask_application.assets import common_js, common_css
 assets = Environment(app)
 # Ensure output directory exists
 assets_output_dir = os.path.join(FLASK_APP_DIR, '..', 'static', 'gen')
 if not os.path.exists(assets_output_dir):
     os.mkdir(assets_output_dir)
+assets.register('common_css', common_css)
+assets.register('common_js', common_js)
 
 # Email
 from flask_mail import Mail

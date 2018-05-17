@@ -1,3 +1,4 @@
+import datetime
 from flask_security import UserMixin, RoleMixin
 from flask_application.models import db, FlaskDocument
 
@@ -39,4 +40,16 @@ class Job(FlaskDocument):
     accepted_date = db.DateTimeField()
     agreed_amount = db.StringField(max_length=255)
 
+class Conversation(FlaskDocument):
+    conversationId = db.StringField()
+    participants = db.ListField()
+
+class Message(FlaskDocument):
+    conversationId = db.StringField()
+    author = db.StringField()
+    recipient = db.StringField()
+    subject = db.StringField()
+    content = db.StringField()
+    created_at = db.DateTimeField(required=True, default=datetime.datetime.utcnow)
+    modified_at = db.DateTimeField(required=True, default=datetime.datetime.utcnow)
 

@@ -16,7 +16,7 @@ class Config(object):
         self.SERVER_NAME = 'localhost:5000'
 
         self.SYS_ADMINS = ['foo@example.com']
-        self.ASSETS_DEBUG = False
+        self.ASSETS_DEBUG = True
 
         # Mongodb support
         self.MONGODB_SETTINGS = self.mongo_from_uri(
