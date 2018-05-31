@@ -1,7 +1,5 @@
 import logging
 import os
-from pymongo.uri_parser import parse_uri
-
 
 class Config(object):
     def __init__(self):
@@ -19,9 +17,11 @@ class Config(object):
         self.ASSETS_DEBUG = True
 
         # Mongodb support
-        self.MONGODB_SETTINGS = self.mongo_from_uri(
-            'mongodb://10.0.0.76:27017/development'
-        )
+        # Uncomment and fill out for shared DB connection
+        self.MONGODB_SETTINGS = self.dbLocation("cloud", username="", password="", db_name="")
+
+        # Uncomment and fill out for custom DB coonnection
+        # self.MONGODB_SETTINGS = self.dbLocation("local", db_conn="")
 
         # Configured for Gmail
         self.DEFAULT_MAIL_SENDER = 'Admin < username@example.com >'
@@ -48,15 +48,22 @@ class Config(object):
         # CACHE
         self.CACHE_TYPE = 'simple'
 
+    def dbLocation(self, location, db_conn=None, username=None, password=None, db_name=None):
+        if location == "custom":
+            uri = db_conn
+            return self.mongo_from_uri(uri)
+        elif location == "cloud":
+            uri = "mongodb://{username}:{password}@bitjobboard-shard-00-00-dyzis.mongodb.net:27017,bitjobboard-shard-00-01-dyzis.mongodb.net:27017,bitjobboard-shard-00-02-dyzis.mongodb.net:27017/{db_name}?ssl=true&replicaSet=bitjobboard-shard-0&authSource=admin&retryWrites=true" \
+                .format(username=username, password=password, db_name=db_name)
+            return self.mongo_from_uri(uri)
+        else:
+            raise ValueError('Location must be "custom" or "cloud"')
+
+
     @staticmethod
     def mongo_from_uri(uri):
-        config = parse_uri(uri)
         conn_settings = {
-            'db': config['database'],
-            'username': config['username'],
-            'password': config['password'],
-            'host': config['nodelist'][0][0],
-            'port': config['nodelist'][0][1]
+            'host': uri
         }
         return conn_settings
 
