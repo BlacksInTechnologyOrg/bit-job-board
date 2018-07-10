@@ -1,1 +1,0 @@
-flake8 --filename=*.py . && ./manage.py run_tests
