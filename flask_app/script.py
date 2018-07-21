@@ -1,6 +1,7 @@
 
 from flask_app.db_init import FlaskDocument
 from flask_app.models.user import User
+from flask_app.messaging import MessageHandler
 
 def register(app):
     @app.cli.command()
@@ -10,6 +11,10 @@ def register(app):
     @app.cli.command()
     def populatedb():
         PopulateDB().run()
+
+    @app.cli.command()
+    def createMessages():
+        Message().run()
 
 class ResetDB:
     """Drops all tables and recreates them"""
@@ -31,6 +36,7 @@ class PopulateDB():
         users = []
         for u in (('matt', 'matt@lp.com', 'password', ['admin'], True, 'Matt', 'Jenkins'),
                   ('joe', 'joe@lp.com', 'password', ['editor'], True, 'Joe', 'Jackson'),
+                  ('joey', 'joey@lp.com', 'password', ['editor'], True, 'Joey', 'Jackson'),
                   ('jill', 'jill@lp.com', 'password', ['author'], True, 'Jill', 'Jane'),
                   ('tiya', 'tiya@lp.com', 'password', [], False, 'Tiya', 'Willams'),
                   ('dubh3124', 'dubh3124@lp.com', 'password', [], True, 'Herman', 'Haggerty')):
@@ -45,7 +51,14 @@ class PopulateDB():
             users.append(user)
 
         User.objects.insert(users)
-
+class Message:
+    def run(self):
+        self.createMesages()
+    def createMesages(self):
+        i=0
+        while i < 10:
+            MessageHandler().newMessage('dubh3124','joe','test','testing')
+            i += 1
 
 
 
