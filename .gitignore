@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+bin/
 env/
 build/
 develop-eggs/
@@ -15,9 +16,12 @@ dist/
 downloads/
 eggs/
 .eggs/
+include/
 lib/
 lib64/
 parts/
+pip-selfcheck*
+front-end/package-lock*
 sdist/
 var/
 *.egg-info/
@@ -58,5 +62,5 @@ docs/_build/
 target/
 /.env
 
-#VSCods
+#VSCode
 .vscode
