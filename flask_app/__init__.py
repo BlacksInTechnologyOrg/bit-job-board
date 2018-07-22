@@ -9,7 +9,7 @@ if not os.path.exists(FRONTEND_DIR):
 
 def create_app():
     app = Flask(__name__,
-                static_folder=os.path.join(FRONTEND_DIR, 'dist'),
+                static_folder=os.path.join(FRONTEND_DIR, 'dist/static'),
                 template_folder=os.path.join(FRONTEND_DIR, 'dist')
                 )
 
