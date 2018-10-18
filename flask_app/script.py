@@ -1,7 +1,10 @@
-
+import datetime
+from flask import json
 from flask_app.db_init import FlaskDocument
 from flask_app.models.user import User
+from flask_app.models.job import Job
 from flask_app.messaging import MessageHandler
+from flask_app.apiv1 import api
 
 def register(app):
     @app.cli.command()
@@ -15,6 +18,10 @@ def register(app):
     @app.cli.command()
     def createMessages():
         Message().run()
+
+    # @app.cli.command()
+    # def getPostmanCollection():
+    #     Postman().run()
 
 class ResetDB:
     """Drops all tables and recreates them"""
@@ -30,6 +37,7 @@ class PopulateDB():
     """Fills in predefined data to DB"""
     def run(self):
         self.create_users()
+        self.create_jobs()
 
     @staticmethod
     def create_users():
@@ -51,6 +59,22 @@ class PopulateDB():
             users.append(user)
 
         User.objects.insert(users)
+
+    @staticmethod
+    def create_jobs():
+        for title, description, author, status in (
+        ('Job1', 'Programmer', 'matt', "Open"), ('Job2', 'System Administrator', 'joe', "Closed"),
+        ('Job3', 'Programmer', 'joe', "Open")):
+            user = User.objects
+
+            test = Job
+            test(author=user.get(username=author),
+                 title=title,
+                 description=description,
+                 publishdate=datetime.datetime.utcnow().isoformat(' ', 'seconds'),
+                 status=status
+                 ).save()
+
 class Message:
     def run(self):
         self.createMesages()
@@ -60,5 +84,14 @@ class Message:
             MessageHandler().newMessage('dubh3124','joe','test','testing')
             i += 1
 
+
+
+# class Postman:
+#     def run(self):
+#         self.getPostmanCollection()
+#
+#     def getPostmanCollection(self):
+#         data = api.as_postman(urlvars=False, swagger=True)
+#         print(json.dumps(data))
 
 

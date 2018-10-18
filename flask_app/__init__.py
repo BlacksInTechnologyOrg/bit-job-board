@@ -9,11 +9,10 @@ if not os.path.exists(FRONTEND_DIR):
 
 def create_app():
     app = Flask(__name__,
-                static_folder=os.path.join(FRONTEND_DIR, 'dist/static'),
+                static_folder=os.path.join(FRONTEND_DIR, 'dist\static'),
                 template_folder=os.path.join(FRONTEND_DIR, 'dist')
                 )
 
-    print(app.static_folder)
     app.config.from_object('flask_app.config.app_config')
     app.logger.info("Config: %s" % app.config['ENVIRONMENT'])
 
@@ -54,9 +53,9 @@ def create_app():
     # app.cli.add_command(resetdb)
     # app.cli.add_command(populatedb)
 
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def catch_all(path):
-        return render_template("index.html")
+    # @app.route('/', defaults={'path': ''})
+    # @app.route('/<path:path>')
+    # def catch_all(path):
+    #     return render_template("index.html")
 
     return app
