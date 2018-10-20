@@ -3,7 +3,8 @@ from bson import json_util
 from flask_app.db_init import db, FlaskDocument
 from flask_app.models.user import User
 
-contract_status = ('In Progress', 'Completed')
+contract_status = ("In Progress", "Completed")
+
 
 class CustomQuerySet(QuerySet):
     def to_json(self):
@@ -24,13 +25,16 @@ class Contract(FlaskDocument):
     tags = db.ListField(default=[])
     status = db.StringField(choices=contract_status)
 
-    meta = {'queryset_class': CustomQuerySet,
-            'indexes': [
-                {'fields': ['$title', "$description", "$content"],
-                 'default_language': 'english',
-                 'weights': {'title': 10, 'description': 8, 'content': 2}
-                 }
-            ]}
+    meta = {
+        "queryset_class": CustomQuerySet,
+        "indexes": [
+            {
+                "fields": ["$title", "$description", "$content"],
+                "default_language": "english",
+                "weights": {"title": 10, "description": 8, "content": 2},
+            }
+        ],
+    }
 
     def to_json(self):
         data = self.to_mongo()

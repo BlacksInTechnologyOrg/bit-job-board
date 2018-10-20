@@ -43,14 +43,14 @@ class Contracts(Resource):
     @contractapi.expect(contracts)
     def post(self):
         data = contractapi.payload
-        tags = data['tags'].split(',')
+        tags = data["tags"].split(",")
         return ContractQuery().create(
             author=data["author"],
             title=data["title"],
             description=data["description"],
             content=data["content"],
             price=data["ask_price"],
-            tags=tags
+            tags=tags,
         )
 
     @contractapi.doc(params={"id": "Job Id"})
