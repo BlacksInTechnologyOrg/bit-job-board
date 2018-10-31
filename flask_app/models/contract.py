@@ -1,17 +1,20 @@
 from flask_mongoengine import QuerySet
 from bson import json_util
 from flask_app.db_init import db, FlaskDocument
+from flask_mongoengine import BaseQuerySet
 from flask_app.models.user import User
+from flask_app.utils import hashid
 
 contract_status = ("In Progress", "Completed")
 
 
-class CustomQuerySet(QuerySet):
+class CustomQuerySet(BaseQuerySet):
     def to_json(self):
         return "[%s]" % (",".join([doc.to_json() for doc in self]))
 
 
 class Contract(FlaskDocument):
+    contractid = db.StringField(default=hashid())
     author = db.ReferenceField(User, reverse_delete_rule=2)
     type = db.ListField(default=[])
     title = db.StringField(max_length=255)
@@ -23,7 +26,7 @@ class Contract(FlaskDocument):
     ask_price = db.IntField()
     agreed_amount = db.StringField(max_length=255)
     tags = db.ListField(default=[])
-    status = db.StringField(choices=contract_status)
+    status = db.StringField(choices=contract_status, default="In Progress")
 
     meta = {
         "queryset_class": CustomQuerySet,
@@ -38,5 +41,6 @@ class Contract(FlaskDocument):
 
     def to_json(self):
         data = self.to_mongo()
+        data.pop("_id")
         data["author"] = self.author.username
         return json_util.dumps(data)

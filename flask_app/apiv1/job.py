@@ -25,14 +25,11 @@ class Jobs(Resource):
         params={"search": "Search", "author": "Publisher", "title": "Job Title"}
     )
     def get(self):
-        if len(request.args) == 0:
-            return JobQuery().search()
-        else:
-            return JobQuery().search(
-                search=request.args.get("search"),
-                author=request.args.get("author"),
-                title=request.args.get("title"),
-            )
+        return JobQuery().search(
+            search=request.args.get("search"),
+            author=request.args.get("author"),
+            title=request.args.get("title"),
+        )
 
     @jobapi.expect(jobs)
     def post(self):
@@ -42,9 +39,28 @@ class Jobs(Resource):
             title=data["title"],
             description=data["description"],
             content=data["content"],
-            # tags=data['tags'].split(',')
+            tags=data["tags"].split(","),
         )
 
-    @jobapi.doc(params={"id": "Job Id"})
-    def delete(self):
-        return JobQuery().delete("matt", request.args.get("id"))
+
+@jobapi.route("/<string:jobid>")  # noqa: F811
+class Jobs(Resource):
+    def get(self, jobid):
+        if jobid:
+            return JobQuery().search(jobid=jobid)
+
+    @jobapi.expect(jobs)
+    def put(self, jobid):
+        data = jobapi.payload
+        return JobQuery().update(
+            author="matt",
+            jobid=jobid,
+            title=data["title"],
+            description=data["description"],
+            content=data["content"],
+            tags=data["tags"],
+            status=data["status"],
+        )
+
+    def delete(self, jobid):
+        return JobQuery().delete("matt", jobid)

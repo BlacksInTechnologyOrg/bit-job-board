@@ -7,7 +7,6 @@ contractapi = Namespace("Contracts", description="Contracts Api")
 contracts = contractapi.model(
     "Contracts",
     {
-        "author": fields.String(required=True, description="Author"),
         "title": fields.String(required=True, description="Title"),
         "description": fields.String(required=True, description="Description"),
         "content": fields.String(required=True, description="Content"),
@@ -49,10 +48,43 @@ class Contracts(Resource):
             title=data["title"],
             description=data["description"],
             content=data["content"],
-            price=data["ask_price"],
+            ask_price=data["ask_price"],
             tags=tags,
         )
 
+
+@contractapi.route("/<contractid>")  # noqa: F811
+class Contracts(Resource):
+    def get(self, contractid):
+        if contractid:
+            return ContractQuery().search(contractid=contractid)
+
+    @contractapi.expect(contracts)
+    def post(self):
+        data = contractapi.payload
+        tags = data["tags"].split(",")
+        return ContractQuery().create(
+            author=data["author"],
+            title=data["title"],
+            description=data["description"],
+            content=data["content"],
+            ask_price=data["ask_price"],
+            tags=tags,
+        )
+
+    @contractapi.expect(contracts)
+    def put(self, contractid):
+        data = contractapi.payload
+        return ContractQuery().update(
+            author="joe",
+            contractid=contractid,
+            title=data["title"],
+            description=data["description"],
+            ask_price=data["ask_price"],
+            content=data["content"],
+            tags=data["tags"],
+        )
+
     @contractapi.doc(params={"id": "Job Id"})
-    def delete(self):
-        return ContractQuery().delete("matt", request.args.get("id"))
+    def delete(self, contractid):
+        return ContractQuery().delete("joe", contractid)
