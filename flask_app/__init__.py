@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import os
+from flask_app.config import config
 
 FRONTEND_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "front-end")
@@ -8,21 +9,21 @@ if not os.path.exists(FRONTEND_DIR):
     raise Exception("Client App directory not found: {}".format(FRONTEND_DIR))
 
 
-def create_app():
-    app = Flask(
+def create_app(config_name):
+    # W605 invalid escape sequence. Seems to be a new flake8 warning that Flask has to fix.
+    app = Flask(  # noqa: W605
         __name__,
-        static_folder=os.path.join(FRONTEND_DIR, "dist\static"),
+        static_folder=os.path.join(FRONTEND_DIR, "dist", "static"),
         template_folder=os.path.join(FRONTEND_DIR, "dist"),
     )
-
-    app.config.from_object("flask_app.config.app_config")
-    app.logger.info("Config: %s" % app.config["ENVIRONMENT"])
+    app.config.from_object(config[config_name])
+    app.logger.info("Config: %s" % config_name)
 
     #  Logging
     import logging
 
     logging.basicConfig(
-        level=app.config["LOG_LEVEL"],
+        level=logging.DEBUG,
         format="%(asctime)s %(levelname)s: %(message)s " "[in %(pathname)s:%(lineno)d]",
         datefmt="%Y%m%d-%H:%M%p",
     )
@@ -60,9 +61,9 @@ def create_app():
     # app.cli.add_command(resetdb)
     # app.cli.add_command(populatedb)
 
-    # @app.route('/', defaults={'path': ''})
-    # @app.route('/<path:path>')
-    # def catch_all(path):
-    #     return render_template("index.html")
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
+    def catch_all(path):
+        return render_template("index.html")
 
     return app

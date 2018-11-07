@@ -3,6 +3,7 @@ from bson import json_util
 from flask_app.db_init import db, FlaskDocument
 from flask_mongoengine import BaseQuerySet
 from flask_app.models.user import User
+from flask_app.utils import hashid
 
 job_status = ("Open", "Closed")
 
@@ -13,6 +14,7 @@ class CustomQuerySet(BaseQuerySet):
 
 
 class Job(FlaskDocument):
+    jobid = db.StringField(default=hashid())
     author = db.ReferenceField(User, reverse_delete_rule=2, dbref=True)
     type = db.ListField(default=[])
     title = db.StringField(max_length=255)
@@ -35,5 +37,6 @@ class Job(FlaskDocument):
 
     def to_json(self):
         data = self.to_mongo()
+        data.pop("_id")
         data["author"] = self.author.username
         return json_util.dumps(data)

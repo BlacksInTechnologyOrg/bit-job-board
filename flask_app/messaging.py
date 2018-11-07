@@ -3,6 +3,7 @@ import logging
 from flask_app.utils import hashid
 from flask_app.models.messaging import Conversation, Message
 from mongoengine.queryset.visitor import Q
+from flask_app.errors import MessageNotFoundError
 
 
 class MessageHandler:
@@ -42,12 +43,12 @@ class MessageHandler:
                 .to_json()
             )
             return messages
-        except:
+        except Exception:
             logging.error(Exception)
 
     def deleteMessage(self, messageid):
         message = Message.objects(id__exact=messageid)
         if not message:
-            raise TypeError("Message ID not found")
+            raise MessageNotFoundError
         else:
             message.delete()

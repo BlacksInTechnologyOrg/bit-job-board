@@ -1,3 +1,4 @@
+import json
 from flask import request
 from flask_restplus import Resource, Namespace, fields
 from flask_app.qtools import ContractQuery
@@ -7,7 +8,6 @@ contractapi = Namespace("Contracts", description="Contracts Api")
 contracts = contractapi.model(
     "Contracts",
     {
-        "author": fields.String(required=True, description="Author"),
         "title": fields.String(required=True, description="Title"),
         "description": fields.String(required=True, description="Description"),
         "content": fields.String(required=True, description="Content"),
@@ -42,17 +42,36 @@ class Contracts(Resource):
 
     @contractapi.expect(contracts)
     def post(self):
-        data = contractapi.payload
-        tags = data["tags"].split(",")
+        data = json.loads(contractapi.payload)
         return ContractQuery().create(
             author=data["author"],
             title=data["title"],
             description=data["description"],
             content=data["content"],
-            price=data["ask_price"],
-            tags=tags,
+            ask_price=data["ask_price"],
+            agreed_amount=data["agreed_amount"],
+            tags=data["tags"],
         )
 
-    @contractapi.doc(params={"id": "Job Id"})
-    def delete(self):
-        return ContractQuery().delete("matt", request.args.get("id"))
+
+@contractapi.route("/<contractid>")  # noqa: F811
+class Contracts(Resource):
+    def get(self, contractid):
+        if contractid:
+            return ContractQuery().search(contractid=contractid)
+
+    @contractapi.expect(contracts)
+    def put(self, contractid):
+        data = json.loads(contractapi.payload)
+        return ContractQuery().update(
+            author="matt",
+            contractid=contractid,
+            title=data["title"],
+            description=data["description"],
+            ask_price=data["ask_price"],
+            content=data["content"],
+            tags=data["tags"],
+        )
+
+    def delete(self, contractid):
+        return ContractQuery().delete("matt", contractid)
