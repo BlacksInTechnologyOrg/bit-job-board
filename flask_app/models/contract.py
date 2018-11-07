@@ -24,7 +24,7 @@ class Contract(FlaskDocument):
     accepted_by = db.ReferenceField(User, reverse_delete_rule=2)
     accepted_date = db.DateTimeField()
     ask_price = db.IntField()
-    agreed_amount = db.StringField(max_length=255)
+    agreed_amount = db.IntField()
     tags = db.ListField(default=[])
     status = db.StringField(choices=contract_status, default="In Progress")
 

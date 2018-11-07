@@ -1,3 +1,4 @@
+import json
 from flask import request
 from flask_restplus import Resource, Namespace, fields
 from flask_app.qtools import ContractQuery
@@ -29,27 +30,24 @@ class Contracts(Resource):
         }
     )
     def get(self):
-        if len(request.args) == 0:
-            return ContractQuery().search()
-        else:
-            return ContractQuery().search(
-                search=request.args.get("search"),
-                author=request.args.get("author"),
-                title=request.args.get("title"),
-                status=request.args.get("status"),
-            )
+        return ContractQuery().search(
+            search=request.args.get("search"),
+            author=request.args.get("author"),
+            title=request.args.get("title"),
+            status=request.args.get("status"),
+        )
 
     @contractapi.expect(contracts)
     def post(self):
-        data = contractapi.payload
-        tags = data["tags"].split(",")
+        data = json.loads(contractapi.payload)
         return ContractQuery().create(
             author=data["author"],
             title=data["title"],
             description=data["description"],
             content=data["content"],
             ask_price=data["ask_price"],
-            tags=tags,
+            agreed_amount=data["agreed_amount"],
+            tags=data["tags"],
         )
 
 
@@ -60,23 +58,10 @@ class Contracts(Resource):
             return ContractQuery().search(contractid=contractid)
 
     @contractapi.expect(contracts)
-    def post(self):
-        data = contractapi.payload
-        tags = data["tags"].split(",")
-        return ContractQuery().create(
-            author=data["author"],
-            title=data["title"],
-            description=data["description"],
-            content=data["content"],
-            ask_price=data["ask_price"],
-            tags=tags,
-        )
-
-    @contractapi.expect(contracts)
     def put(self, contractid):
-        data = contractapi.payload
+        data = json.loads(contractapi.payload)
         return ContractQuery().update(
-            author="joe",
+            author="matt",
             contractid=contractid,
             title=data["title"],
             description=data["description"],
@@ -85,6 +70,5 @@ class Contracts(Resource):
             tags=data["tags"],
         )
 
-    @contractapi.doc(params={"id": "Job Id"})
     def delete(self, contractid):
-        return ContractQuery().delete("joe", contractid)
+        return ContractQuery().delete("matt", contractid)

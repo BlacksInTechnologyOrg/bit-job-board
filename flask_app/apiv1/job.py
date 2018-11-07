@@ -34,12 +34,13 @@ class Jobs(Resource):
     @jobapi.expect(jobs)
     def post(self):
         data = jobapi.payload
+        data = json.loads(data)
         return JobQuery().create(
             author=data["author"],
             title=data["title"],
             description=data["description"],
             content=data["content"],
-            tags=data["tags"].split(","),
+            tags=data["tags"],
         )
 
 
@@ -52,6 +53,7 @@ class Jobs(Resource):
     @jobapi.expect(jobs)
     def put(self, jobid):
         data = jobapi.payload
+        data = json.loads(data)
         return JobQuery().update(
             author="matt",
             jobid=jobid,

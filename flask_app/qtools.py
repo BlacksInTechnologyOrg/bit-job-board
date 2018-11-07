@@ -10,40 +10,11 @@ log = logging.getLogger(__name__)
 
 
 class JobQuery:
-    def create(self, author, title, description, content, tags=None):
-        try:
-            Job(
-                author=User.objects.get(username=author),
-                title=title,
-                description=description,
-                content=content,
-                publishdate=datetime.datetime.utcnow().isoformat(" ", "seconds"),
-                tags=tags,
-                status="Open",
-            ).save()
-            return {"message": "Created Job"}
-        except Exception:
-            log.exception("Oops!")
-            return {"message": "Something went wrong!"}
-
-    def update(self, author, jobid, **kwargs):
-        try:
-            for k in list(kwargs.keys()):
-                if not kwargs[k]:
-                    kwargs.pop(k)
-
-            Job.objects(author__exact=User.objects.get(username=author)).get_or_404(
-                jobid=jobid
-            ).update(**kwargs)
-            return {"message": "Updated Job"}
-        except Exception:
-            logging.exception("Oops!")
-            return {"error": "Cannot not update Job!"}
-
     def search(self, jobid=None, search=None, **kwargs):
         try:
             if jobid is not None:
-                return Job.objects(id=jobid).to_json()
+                js = Job.objects(jobid=jobid)
+                return js.to_json() if js else "Job ID Does Not Exist"
             elif search is not None:
                 return Job.objects.search_text(search).order_by("$text_score").to_json()
             else:
@@ -60,6 +31,36 @@ class JobQuery:
         except Exception:
             log.exception("Oops!")
 
+    def create(self, author, title, description, content, tags=None):
+        try:
+            Job(
+                author=User.objects.get(username=author),
+                title=title,
+                description=description,
+                content=content,
+                tags=tags,
+                status="Open",
+            ).save()
+            return {"message": "Created Job"}
+        except Exception:
+            log.exception("Oops!")
+            return {"message": "Something went wrong!"}
+
+    def update(self, author, jobid, **kwargs):
+        try:
+            "Removing "
+            for k in list(kwargs.keys()):
+                if not kwargs[k]:
+                    kwargs.pop(k)
+
+            Job.objects(author__exact=User.objects.get(username=author)).get_or_404(
+                jobid=jobid
+            ).update(**kwargs)
+            return {"message": "Updated Job"}
+        except Exception:
+            logging.exception("Oops!")
+            return {"error": "Cannot not update Job!"}
+
     def delete(self, author, id):
         try:
             Job.objects(author__exact=User.objects.get(username=author)).get_or_404(
@@ -74,13 +75,16 @@ class JobQuery:
 
 
 class ContractQuery:
-    def create(self, author, title, description, ask_price, content, tags=None):
+    def create(
+        self, author, title, description, ask_price, agreed_amount, content, tags=None
+    ):
         try:
             Contract(
                 author=User.objects.get(username=author),
                 title=title,
                 description=description,
                 ask_price=ask_price,
+                agreed_amount=agreed_amount,
                 content=content,
                 publishdate=datetime.datetime.utcnow().isoformat(" ", "seconds"),
                 tags=tags,
@@ -97,16 +101,19 @@ class ContractQuery:
             for k in list(kwargs.keys()):
                 if not kwargs[k]:
                     kwargs.pop(k)
-            print(kwargs)
-            Contract.objects(
-                author__exact=User.objects.get(username=author)
-            ).get_or_404(contractid=contractid).update(**kwargs)
+            Contract.objects(author__exact=User.objects.get(username=author)).get(
+                contractid=contractid
+            ).update(**kwargs)
             return {"message": "Updated Contract"}
         except Exception:
             logging.exception("Cannot not update contract: " + contractid)
             return {"error": "Cannot not update contract!"}
 
-    def search(self, search=None, **kwargs):
+    def search(self, contractid=None, search=None, **kwargs):
+        if contractid is not None:
+            js = Contract.objects(contractid=contractid)
+            return js.to_json() if js else "Contract ID Does Not Exist"
+
         if len(kwargs) == 0:
             return Contract.objects().to_json()
         elif search is not None:
@@ -115,7 +122,7 @@ class ContractQuery:
             )
         else:
             queryargs = [
-                f"Q({kwkey}=User.objects.get(username='{kwval}'))"
+                f"Q({kwkey}=User.objects.get(username__exact='{kwval}'))"
                 if kwkey == "author"
                 else f"Q({kwkey}__contains='{kwval}')"
                 for kwkey, kwval in kwargs.items()

@@ -1,8 +1,10 @@
 import datetime
+import logging
 from flask import json
 from flask_app.db_init import FlaskDocument
 from flask_app.models.user import User
 from flask_app.models.job import Job
+from flask_app.models.contract import Contract
 from flask_app.messaging import MessageHandler
 from flask_app.apiv1 import api
 
@@ -40,8 +42,13 @@ class PopulateDB:
     """Fills in predefined data to DB"""
 
     def run(self):
-        self.create_users()
-        self.create_jobs()
+        try:
+            self.create_users()
+            self.create_jobs()
+            self.create_contracts()
+        except Exception:
+            logging.exception("Database contains data, resetting")
+            ResetDB().drop_collections()
 
     @staticmethod
     def create_users():
@@ -84,6 +91,26 @@ class PopulateDB:
                 status=status,
             ).save()
 
+    @staticmethod
+    def create_contracts():
+        for title, description, content, author, status, ask_price, agreed_amount in (
+            ("Contract1", "Web Design", "content", "matt", "In Progress", 50, 50),
+            ("Contract2", "Data Mining", "content", "joe", "Completed", 323, 300),
+            ("Contract3", "Dashboard", "content", "jill", "In Progress", 132, 120),
+        ):
+            user = User.objects
+
+            test = Contract
+            test(
+                author=user.get(username=author),
+                title=title,
+                description=description,
+                content=content,
+                status=status,
+                ask_price=ask_price,
+                agreed_amount=agreed_amount,
+            ).save()
+
 
 class Message:
     def run(self):
@@ -96,10 +123,10 @@ class Message:
             i += 1
 
 
-# class Postman:
-#     def run(self):
-#         self.getPostmanCollection()
-#
-#     def getPostmanCollection(self):
-#         data = api.as_postman(urlvars=False, swagger=True)
-#         print(json.dumps(data))
+class Postman:
+    def run(self):
+        self.getPostmanCollection()
+
+    def getPostmanCollection(self):
+        data = api.as_postman(urlvars=False, swagger=True)
+        print(json.dumps(data))

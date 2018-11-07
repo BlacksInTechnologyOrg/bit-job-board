@@ -51,6 +51,12 @@ class DevelopmentConfig(Config):
         self.ENVIRONMENT = "Dev"
         self.DEBUG = True
         self.TESTING = False
+        self.SECRET_KEY = os.getenv("SECRET_KEY")
+        self.JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+        self.JWT_TOKEN_LOCATION = ["cookies"]
+        self.JWT_ACCESS_CSRF_HEADER_NAME = os.getenv("JWT_ACCESS_CSRF_HEADER_NAME")
+        self.JWT_COOKIE_CSRF_PROTECT = True
+        self.JWT_COOKIE_DOMAIN = os.getenv("JWT_COOKIE_DOMAIN")
 
 
 class TestingConfig(Config):
@@ -64,16 +70,11 @@ class TestingConfig(Config):
         self.DEBUG = False
         self.TESTING = True
 
-        self.MONGODB_SETTINGS = self.mongo_from_uri(os.getenv("MONGOURL_TESTING"))
+        self.MONGODB_SETTINGS = self.mongo_from_uri("mongomock://localhost")
 
 
-environment = os.getenv("FLASK_ENV", "DEVELELOPMENT").lower()
-# Alternatively this may be easier if you are managing multiple aws servers:
-# environment = socket.gethostname().lower()
-
-if environment == "testing":
-    app_config = TestingConfig()
-elif environment == "production":
-    app_config = ProductionConfig()
-else:
-    app_config = DevelopmentConfig()
+config = {
+    "development": DevelopmentConfig(),
+    "testing": TestingConfig(),
+    "production": ProductionConfig(),
+}
