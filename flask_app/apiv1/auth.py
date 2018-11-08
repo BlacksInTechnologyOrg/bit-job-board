@@ -1,3 +1,4 @@
+import logging
 from flask import jsonify
 from flask_restplus import Resource, Namespace, fields
 from flask_app.models.user import User
@@ -73,7 +74,9 @@ class UserRegistration(Resource):
 class UserLogin(Resource):
     @authapi.expect(creds)
     def post(self):
+        logging.info("Logging In")
         data = authapi.payload
+        print(data)
         current_user = User.objects(username__exact=data["username"])
         if not current_user:
             return {"message": "User {} doesn't exist".format(data["username"])}
@@ -101,7 +104,7 @@ class UserLogout(Resource):
             resp = jsonify({"logout": True})
             unset_jwt_cookies(resp)
             return resp
-        except:
+        except Exception:
             return jsonify({"error": "Something went wrong deleting token"})
 
 
@@ -115,5 +118,5 @@ class TokenRefresh(Resource):
             resp = jsonify({"message": "Token Refreshed!"})
             set_access_cookies(resp, access_token)
             return resp
-        except:
+        except Exception:
             return jsonify({"error": "Something went wrong refreshing token"})

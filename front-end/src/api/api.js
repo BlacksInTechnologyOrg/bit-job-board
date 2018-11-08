@@ -1,59 +1,20 @@
-import 'whatwg-fetch'
+import axios from 'axios'
 
-const BASE = ''
-const headers = new Headers({
-  'Accept': 'appication/json',
-  'Content-Type': 'appication/json'
-})
+const API_URL = 'http://localhost:8008/api'
 
-const addToken = () => {
-  const token = window.localStorage.getItem('JWT_TOKEN')
-  headers.append('Authorization', `JWT ${token}`)
+export function logInSite (payload) {
+  console.log('logging in!')
+  return axios.post(`${API_URL}/auth/login`, payload)
 }
 
-export function post (path, body) {
-  const init = {
-    headers: headers,
-    method: 'POST',
-    mode: 'cors',
-    body: JSON.stringify(body)
-  }
-  return fetch(BASE + path, init)
+export function fetchSurvey (surveyId) {
+  return axios.get(`${API_URL}/surveys/${surveyId}/`)
 }
 
-export function get (path) {
-  if (!('Authorization' in headers.keys)) {
-    addToken()
-  }
-  const init = {
-    headers: headers,
-    method: 'GET',
-    mode: 'cors'
-  }
-  return fetch(BASE + path, init)
+export function saveSurveyResponse (surveyResponse) {
+  return axios.put(`${API_URL}/surveys/${surveyResponse.id}/`, surveyResponse)
 }
 
-export function put (path, body) {
-  if (!('Authorization' in headers.keys)) {
-    addToken()
-  }
-  const init = {
-    headers: headers,
-    method: 'PUT',
-    mode: 'cors',
-    body: JSON.stringify(body)
-  }
-  return fetch(BASE + path, init)
-}
-
-export function remove (path) {
-  if (!('Authorization' in headers.keys)) {
-    addToken()
-  }
-  const init = {
-    headers: headers,
-    method: 'DELETE',
-    mode: 'cors'
-  }
-  return fetch(BASE + path, init)
+export function postNewSurvey (survey) {
+  return axios.post(`${API_URL}/surveys/`, survey)
 }
