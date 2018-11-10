@@ -1,5 +1,6 @@
 import logging
 import datetime
+import json
 from flask_app.models.job import Job
 from flask_app.models.user import User
 from flask_app.models.contract import Contract
@@ -109,20 +110,24 @@ class ContractQuery:
             logging.exception("Cannot not update contract: " + contractid)
             return {"error": "Cannot not update contract!"}
 
-    def search(self, contractid=None, search=None, **kwargs):
+    def search(self, contractid=None, **kwargs):
         if contractid is not None:
             js = Contract.objects(contractid=contractid)
             return js.to_json() if js else "Contract ID Does Not Exist"
 
         if len(kwargs) == 0:
             return Contract.objects().to_json()
-        elif search is not None:
-            return (
-                Contract.objects.search_text(search).order_by("$text_score").to_json()
+        elif "search" in kwargs and kwargs["search"] is not None:
+            print(kwargs["search"])
+            print(
+                Contract.objects.search_text(kwargs["search"]).order_by("$text_score")
+            )
+            return Contract.objects.search_text(kwargs["search"]).order_by(
+                "$text_score"
             )
         else:
             queryargs = [
-                f"Q({kwkey}=User.objects.get(username__exact='{kwval}'))"
+                f"Q({kwkey}=User.objects.get(username='{kwval}'))"
                 if kwkey == "author"
                 else f"Q({kwkey}__contains='{kwval}')"
                 for kwkey, kwval in kwargs.items()
@@ -130,7 +135,7 @@ class ContractQuery:
             ]
             queryargs = " | ".join(queryargs)
             doc = Contract.objects(eval(queryargs))
-            return doc.to_json()
+            return json.loads(doc.to_json())
 
     def delete(self, author, contractid):
         try:

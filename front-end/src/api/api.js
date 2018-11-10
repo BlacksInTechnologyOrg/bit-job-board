@@ -1,14 +1,20 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8008/api'
+const API_URL = 'http://devdesktop.com:8008/api'
 
 export function logInSite (payload) {
-  console.log('logging in!')
   return axios.post(`${API_URL}/auth/login`, payload)
 }
+export function registerToSite (payload) {
+  return axios.post(`${API_URL}/auth/registration`, payload)
+}
 
-export function fetchSurvey (surveyId) {
-  return axios.get(`${API_URL}/surveys/${surveyId}/`)
+export function searchContracts (search) {
+  return axios.get(`${API_URL}/Contracts/`, {
+    params: {
+      author: search
+    }
+  })
 }
 
 export function saveSurveyResponse (surveyResponse) {

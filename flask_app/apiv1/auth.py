@@ -1,5 +1,6 @@
 import logging
-from flask import jsonify
+from mongoengine.errors import DoesNotExist, NotUniqueError
+from flask import jsonify, Response
 from flask_restplus import Resource, Namespace, fields
 from flask_app.models.user import User
 from flask_jwt_extended import (
@@ -51,50 +52,63 @@ class UserRegistration(Resource):
 
         try:
             user.username = data["username"]
+            user.email = data["email"]
+            user.firstname = data["firstname"]
+            user.lastname = data["lastname"]
             user.password = user.generate_hash(data["password"])
             user.save()
 
             access_token = create_access_token(identity=data["username"])
             refresh_token = create_refresh_token(identity=data["username"])
 
-            resp = jsonify({"message": "User {} was created".format(data["username"])})
+            resp = jsonify({"message": f'User {data["username"]} was created'})
 
             set_access_cookies(resp, access_token)
             set_refresh_cookies(resp, refresh_token)
 
             return resp
-        except Exception as e:
-            if "E11000 duplicate key error collection" in e.args[0]:
-                return {"message": "User {} already exists".format(data["username"])}
-            else:
-                return {"message": "Oops"}
+        except NotUniqueError as e:
+            logging.exception(e)
+            resp = jsonify({"message": "Username already exists!"})
+            resp.status_code = 422
+            return resp
+        except Exception:
+            resp = jsonify({"message": "Something went wrong!"})
+            resp.status_code = 500
 
 
 @authapi.route("/login")
 class UserLogin(Resource):
     @authapi.expect(creds)
     def post(self):
-        logging.info("Logging In")
-        data = authapi.payload
-        print(data)
-        current_user = User.objects(username__exact=data["username"])
-        if not current_user:
-            return {"message": "User {} doesn't exist".format(data["username"])}
+        try:
+            logging.info("Logging In")
+            data = authapi.payload
+            current_user = User.objects.get(username=data["username"])
+            if user.verify_hash(data["password"], current_user.password):
+                access_token = create_access_token(identity=data["username"])
+                refresh_token = create_refresh_token(identity=data["username"])
 
-        if user.verify_hash(data["password"], current_user.get().password):
-            access_token = create_access_token(identity=data["username"])
-            refresh_token = create_refresh_token(identity=data["username"])
+                resp = jsonify(
+                    {"message": "Logged in as {}".format(current_user.username)}
+                )
 
-            resp = jsonify(
-                {"message": "Logged in as {}".format(current_user.get().username)}
-            )
-
-            set_access_cookies(resp, access_token)
-            set_refresh_cookies(resp, refresh_token)
-            return resp
-
-        else:
-            return {"message": "Wrong credentials"}
+                set_access_cookies(resp, access_token)
+                set_refresh_cookies(resp, refresh_token)
+                return resp
+            else:
+                response = jsonify({"message": "Wrong username or password!"})
+                response.status_code = 401
+                return response
+        except DoesNotExist:
+            response = jsonify({"message": "Wrong username or password!"})
+            response.status_code = 401
+            return response
+        except Exception:
+            logging.exception("Oops", exc_info=True)
+            response = jsonify({"message": "Somthing Went Wrong!"})
+            response.status_code = 500
+            return response
 
 
 @authapi.route("/logout")
@@ -105,7 +119,10 @@ class UserLogout(Resource):
             unset_jwt_cookies(resp)
             return resp
         except Exception:
-            return jsonify({"error": "Something went wrong deleting token"})
+            logging.exception("Token not deleted after log out")
+            resp = jsonify({"error": "Something went wrong!"})
+            unset_jwt_cookies(resp)
+            return resp
 
 
 @authapi.route("/token/refresh")
@@ -119,4 +136,5 @@ class TokenRefresh(Resource):
             set_access_cookies(resp, access_token)
             return resp
         except Exception:
-            return jsonify({"error": "Something went wrong refreshing token"})
+            logging.exception("Token could not be refreshed")
+            return jsonify({"error": "Something went wrong!"})

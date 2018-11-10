@@ -96,7 +96,7 @@ class PopulateDB:
         for title, description, content, author, status, ask_price, agreed_amount in (
             ("Contract1", "Web Design", "content", "matt", "In Progress", 50, 50),
             ("Contract2", "Data Mining", "content", "joe", "Completed", 323, 300),
-            ("Contract3", "Dashboard", "content", "jill", "In Progress", 132, 120),
+            ("Contract3", "Dashboard", "content", "joe", "In Progress", 132, 120),
         ):
             user = User.objects
 

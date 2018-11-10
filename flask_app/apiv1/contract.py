@@ -1,5 +1,5 @@
 import json
-from flask import request
+from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
 from flask_app.qtools import ContractQuery
 
@@ -30,15 +30,13 @@ class Contracts(Resource):
         }
     )
     def get(self):
+        print(request.args.to_dict())
         if len(request.args) == 0:
             return ContractQuery().search()
         else:
-            return ContractQuery().search(
-                search=request.args.get("search"),
-                author=request.args.get("author"),
-                title=request.args.get("title"),
-                status=request.args.get("status"),
-            )
+            respdict = ContractQuery().search(**request.args.to_dict())
+            print(respdict)
+            return respdict
 
     @contractapi.expect(contracts)
     def post(self):
