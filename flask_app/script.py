@@ -7,6 +7,7 @@ from flask_app.models.job import Job
 from flask_app.models.contract import Contract
 from flask_app.messaging import MessageHandler
 from flask_app.apiv1 import api
+from flask_app.utils import hashid
 
 
 def register(app):
@@ -84,6 +85,7 @@ class PopulateDB:
 
             test = Job
             test(
+                jobid=hashid(),
                 author=user.get(username=author),
                 title=title,
                 description=description,
@@ -102,6 +104,7 @@ class PopulateDB:
 
             test = Contract
             test(
+                contractid=hashid(),
                 author=user.get(username=author),
                 title=title,
                 description=description,

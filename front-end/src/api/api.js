@@ -16,6 +16,19 @@ export function searchContracts (search) {
     }
   })
 }
+export function searchJobs (search) {
+  return axios.get(`${API_URL}/Jobs/`, {
+    params: {
+      author: search
+    }
+  })
+}
+export function getJob (jobid) {
+  return axios.get(`${API_URL}/Jobs/` + jobid)
+}
+export function getContract (contractid) {
+  return axios.get(`${API_URL}/Contracts/` + contractid)
+}
 
 export function saveSurveyResponse (surveyResponse) {
   return axios.put(`${API_URL}/surveys/${surveyResponse.id}/`, surveyResponse)

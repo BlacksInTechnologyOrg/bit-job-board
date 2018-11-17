@@ -14,7 +14,7 @@ class CustomQuerySet(BaseQuerySet):
 
 
 class Job(FlaskDocument):
-    jobid = db.StringField(default=hashid())
+    jobid = db.StringField(default=hashid(), unique=True)
     author = db.ReferenceField(User, reverse_delete_rule=2, dbref=True)
     type = db.ListField(default=[])
     title = db.StringField(max_length=255)

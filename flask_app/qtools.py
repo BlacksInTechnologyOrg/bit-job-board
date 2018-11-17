@@ -11,13 +11,17 @@ log = logging.getLogger(__name__)
 
 
 class JobQuery:
-    def search(self, jobid=None, search=None, **kwargs):
+    def search(self, jobid=None, **kwargs):
         try:
             if jobid is not None:
-                js = Job.objects(jobid=jobid)
-                return js.to_json() if js else "Job ID Does Not Exist"
-            elif search is not None:
-                return Job.objects.search_text(search).order_by("$text_score").to_json()
+                js = Job.objects(jobid=jobid).get(jobid=jobid)
+                return json.loads(js.to_json()) if js else "Job ID Does Not Exist"
+            elif "search" in kwargs and kwargs["search"] is not None:
+                return (
+                    Job.objects.search_text(kwargs["search"])
+                    .order_by("$text_score")
+                    .to_json()
+                )
             else:
                 queryargs = [
                     f"Q({kwkey}=User.objects.get(username='{kwval}'))"
@@ -28,7 +32,7 @@ class JobQuery:
                 ]
                 queryargs = " | ".join(queryargs)
                 doc = Job.objects(eval(queryargs))
-                return doc.to_json()
+                return json.loads(doc.to_json())
         except Exception:
             log.exception("Oops!")
 
@@ -112,18 +116,18 @@ class ContractQuery:
 
     def search(self, contractid=None, **kwargs):
         if contractid is not None:
-            js = Contract.objects(contractid=contractid)
-            return js.to_json() if js else "Contract ID Does Not Exist"
+            js = Contract.objects(contractid=contractid).get(contractid=contractid)
+            return json.loads(js.to_json()) if js else "Contract ID Does Not Exist"
 
-        if len(kwargs) == 0:
-            return Contract.objects().to_json()
         elif "search" in kwargs and kwargs["search"] is not None:
             print(kwargs["search"])
             print(
                 Contract.objects.search_text(kwargs["search"]).order_by("$text_score")
             )
-            return Contract.objects.search_text(kwargs["search"]).order_by(
-                "$text_score"
+            return (
+                Contract.objects.search_text(kwargs["search"])
+                .order_by("$text_score")
+                .to_json()
             )
         else:
             queryargs = [

@@ -79,8 +79,6 @@
   <!--</div>-->
 </template>
 <script>
-  import StatsCard from 'components/UIComponents/Cards/StatsCard.vue'
-  import ChartCard from 'components/UIComponents/Cards/ChartCard.vue'
   import PaperTable from 'components/UIComponents/PaperTable.vue'
   import {searchContracts} from '../../../api/api'
 
@@ -96,7 +94,7 @@
     components: {
       PaperTable
     },
-    mounted: function() {
+    mounted: function () {
       searchContracts('matt').then(response => {
         this.table1.data = [...response.data]
       })
@@ -105,7 +103,7 @@
       return {
         table1: {
           title: 'Contracts',
-          subTitle: 'List oWf Contracts',
+          subTitle: 'List of Contracts',
           columns: [...tableColumns],
           data: ''
         },

@@ -7,6 +7,7 @@
 
     </notifications>
     <div class="main-panel">
+      <nav-bar></nav-bar>
       <top-navbar></top-navbar>
 
       <dashboard-content @click.native="toggleSidebar">
@@ -24,8 +25,10 @@
   import TopNavbar from './TopNavbar.vue'
   import ContentFooter from './ContentFooter.vue'
   import DashboardContent from './Content.vue'
+  import NavBar from 'components/UIComponents/NavBar.vue'
   export default {
     components: {
+      NavBar,
       TopNavbar,
       ContentFooter,
       DashboardContent

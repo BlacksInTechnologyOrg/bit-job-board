@@ -6,7 +6,7 @@ from mongoengine.errors import DoesNotExist
 
 
 def test_searchContractByContractId(client):
-    jid = Contract.objects.get(author=User.objects.get(username="joe")).contractid
+    jid = Contract.objects.get(author=User.objects.get(username="matt")).title
     print(jid)
     rv = client.get(f"/api/Contracts/{jid}")
     assert jid.encode("utf-8") in rv.data

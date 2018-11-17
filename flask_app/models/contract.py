@@ -14,7 +14,7 @@ class CustomQuerySet(BaseQuerySet):
 
 
 class Contract(FlaskDocument):
-    contractid = db.StringField(default=hashid())
+    contractid = db.StringField(default=hashid(), unique=True)
     author = db.ReferenceField(User, reverse_delete_rule=2)
     type = db.ListField(default=[])
     title = db.StringField(max_length=255)

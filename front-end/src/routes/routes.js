@@ -3,6 +3,9 @@ import DashboardLayout from '../components/Dashboard/Layout/DashboardLayout.vue'
 import NotFound from '../components/GeneralViews/NotFoundPage.vue'
 import Login from '../components/GeneralViews/LoginPage'
 import Register from '../components/GeneralViews/RegisterPage'
+import SearchListing from '../components/Search/SearchListing'
+import Job from '../components/GeneralViews/Job'
+import Contract from '../components/GeneralViews/Contract'
 
 // Admin pages
 import Overview from 'src/components/Dashboard/Views/Overview.vue'
@@ -21,6 +24,20 @@ const routes = [
   {
     path: '/register',
     component: Register
+  },
+  {
+    path: '/search',
+    component: SearchListing
+  },
+  {
+    path: '/jobs/:jobid',
+    name: 'job',
+    component: Job
+  },
+  {
+    path: '/contracts/:contractid',
+    name: 'contract',
+    component: Contract
   },
   {
     path: '/admin',

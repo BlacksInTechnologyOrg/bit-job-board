@@ -47,8 +47,10 @@ class Jobs(Resource):
 @jobapi.route("/<string:jobid>")  # noqa: F811
 class Jobs(Resource):
     def get(self, jobid):
-        if jobid:
-            return JobQuery().search(jobid=jobid)
+        print(jobid)
+        resp = JobQuery().search(jobid=jobid)
+        print(resp)
+        return resp
 
     @jobapi.expect(jobs)
     def put(self, jobid):

@@ -14,7 +14,6 @@ def client():
     ResetDB().drop_collections()
     PopulateDB().create_users()
     PopulateDB.create_jobs()
-    PopulateDB.create_contracts()
 
     ctx = jbapp.app_context()
     ctx.push()

@@ -52,11 +52,13 @@ class Contracts(Resource):
         )
 
 
-@contractapi.route("/<contractid>")  # noqa: F811
+@contractapi.route("/<string:contractid>")  # noqa: F811
 class Contracts(Resource):
     def get(self, contractid):
-        if contractid:
-            return ContractQuery().search(contractid=contractid)
+        print(contractid)
+        respdict = ContractQuery().search(contractid=contractid)
+        print(respdict)
+        return respdict
 
     @contractapi.expect(contracts)
     def put(self, contractid):
