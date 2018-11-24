@@ -10,8 +10,10 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "unit:watch": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e"
+    "test": "npm run unit && npm run e2e",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
+  "pre-commit": [ "precommit-msg", "build" ],
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
@@ -72,6 +74,7 @@
     "opn": "^4.0.2",
     "ora": "^1.1.0",
     "phantomjs-prebuilt": "^2.1.14",
+    "pre-commit": "^1.2.2",
     "sass-loader": "^5.0.1",
     "selenium-server": "^3.0.1",
     "semver": "^5.3.0",

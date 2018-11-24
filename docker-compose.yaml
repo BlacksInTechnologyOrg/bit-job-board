@@ -1,0 +1,33 @@
+version: "3"
+services:
+  bitjobboard:
+    container_name: "bitjobboard"
+    env_file:
+     - ./.env
+    restart: always
+    image: bitjobboard
+#    volumes:
+#    - "mydata:/home/bjb/front-end/dist"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - "8080:5000"
+#  bjb-nginx:
+#    image: nginx
+#    volumes:
+#      -  "mydata:/www/devdesktop.com"
+#    environment:
+#    - CONTAINER_IP=bitjobboard
+#    build:
+#      context: .
+#      dockerfile: nginx/Dockerfile
+#    ports:
+#    - "8080:80"
+#    links:
+#    - bitjobboard
+#    depends_on:
+#    - bitjobboard
+#
+#volumes:
+#  mydata:

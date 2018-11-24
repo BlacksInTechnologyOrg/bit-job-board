@@ -7,7 +7,6 @@ class Config(object):
         self.DEBUG = False
         self.TESTING = False
         self.PRODUCTION = False
-
         self.SECRET_KEY = os.getenv("SECRET_KEY")
         self.JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
         self.JWT_TOKEN_LOCATION = ["cookies"]

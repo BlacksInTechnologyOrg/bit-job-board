@@ -35,7 +35,7 @@ def create_app(config_name):
     # CORS
     from flask_cors import CORS
 
-    CORS(app, supports_credentials=True)
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
     # Email
     from flask_mail import Mail
