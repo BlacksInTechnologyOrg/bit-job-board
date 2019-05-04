@@ -34,7 +34,7 @@ class Jobs(Resource):
     @jobapi.expect(jobs)
     def post(self):
         data = jobapi.payload
-        data = json.loads(data)
+        print(data)
         return JobQuery().create(
             author=data["author"],
             title=data["title"],

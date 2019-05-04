@@ -16,6 +16,11 @@ export function searchContracts (search) {
     }
   })
 }
+export function createContract (payload) {
+  return axios.post(`${API_URL}/Contracts/`, payload, {
+    headers: { 'x-xsrf-token': this.$cookie.get('csrf_access_token') }
+  })
+}
 export function searchJobs (search) {
   return axios.get(`${API_URL}/Jobs/`, {
     params: {

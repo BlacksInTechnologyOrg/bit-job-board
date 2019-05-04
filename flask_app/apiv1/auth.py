@@ -73,6 +73,7 @@ class UserRegistration(Resource):
             resp.status_code = 422
             return resp
         except Exception:
+            logging.exception(Exception)
             resp = jsonify({"message": "Something went wrong!"})
             resp.status_code = 500
 

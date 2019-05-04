@@ -38,6 +38,11 @@ PyYAML = "==3.13"
 Werkzeug = "==0.14.1"
 WTForms = "==2.2.1"
 pytest = "*"
+mongo-connector = "*"
+"elastic2-doc-manager" = {extras = ["elastic6"], version = "*"}
+elasticsearch = "*"
+certifi = "*"
+elasticsearch-dsl = "*"
 
 [dev-packages]
 coverage = "*"

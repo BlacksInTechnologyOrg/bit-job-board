@@ -1,0 +1,20 @@
+{
+  "mainAddress": "mongodb://dubh3124:VmdwrA2se6zPviAn@bitjobboard-shard-00-00-dyzis.mongodb.net:27017,bitjobboard-shard-00-01-dyzis.mongodb.net:27017,bitjobboard-shard-00-02-dyzis.mongodb.net:27017/bitjobboard?ssl=true&replicaSet=bitjobboard-shard-0&authSource=admin&retryWrites=true",
+  "namespaces": {
+    "include": [
+        "bitjobboard.contract",
+        "bitjobboard.job"
+    ]
+  },
+  "docManagers": [
+    {
+      "docManager": "elastic2_doc_manager",
+      "targetURL": "https://kmyubfw5wj:zkyx644a69@bit-job-board-2930370007.us-east-1.bonsaisearch.net",
+      "args": {
+        "clientOptions": {
+          "timeout": 100
+        }
+      }
+    }
+  ]
+}

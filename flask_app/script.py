@@ -83,8 +83,7 @@ class PopulateDB:
         ):
             user = User.objects
 
-            test = Job
-            test(
+            Job(
                 jobid=hashid(),
                 author=user.get(username=author),
                 title=title,
@@ -102,8 +101,7 @@ class PopulateDB:
         ):
             user = User.objects
 
-            test = Contract
-            test(
+            Contract(
                 contractid=hashid(),
                 author=user.get(username=author),
                 title=title,

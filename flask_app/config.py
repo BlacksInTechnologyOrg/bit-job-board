@@ -12,6 +12,7 @@ class Config(object):
         self.JWT_TOKEN_LOCATION = ["cookies"]
         self.JWT_ACCESS_CSRF_HEADER_NAME = os.getenv("JWT_ACCESS_CSRF_HEADER_NAME")
         self.JWT_COOKIE_CSRF_PROTECT = True
+        self.JWT_COOKIE_SECURE = False
         self.JWT_COOKIE_DOMAIN = os.getenv("JWT_COOKIE_DOMAIN")
 
         self.LOG_LEVEL = logging.DEBUG

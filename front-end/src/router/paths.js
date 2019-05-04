@@ -38,6 +38,14 @@ export default [
     }
   },
   {
+    path: '/dashboard/contract/create',
+    // Relative to /src/views
+    view: 'ContractCreation',
+    meta: {
+      dashboard: true
+    }
+  },
+  {
     path: '/user-profile',
     name: 'User Profile',
     view: 'UserProfile',
