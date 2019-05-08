@@ -3,11 +3,11 @@ import pytest
 from flask_app.models.user import User
 from flask_app.models.contract import Contract
 from mongoengine.errors import DoesNotExist
+from mongoengine import connect
 
 
 def test_searchContractByContractId(client):
     jid = Contract.objects.get(author=User.objects.get(username="matt")).title
-    print(jid)
     rv = client.get(f"/api/Contracts/{jid}")
     assert jid.encode("utf-8") in rv.data
 
@@ -30,11 +30,8 @@ def test_createContract(client):
     )
     js = json.dumps(data)
     resp = client.post("/api/Contracts/", json=js, follow_redirects=True)
-    testContract = (
-        Contract.objects(author=User.objects.get(username="matt"))
-        .get(title="Test")
-        .to_json()
-    )
+    testContract = Contract.objects(author="matt")
+    print(testContract)
     tc = json.loads(testContract)
     assert b'{"message": "Created Contract"}' in resp.data
     for k in data:

@@ -11,6 +11,8 @@ class User(FlaskDocument):
     password = db.StringField(max_length=255)
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
+    jobs = db.ListField(default=[])
+    contracts = db.ListField(default=[])
 
     @staticmethod
     def generate_hash(password):

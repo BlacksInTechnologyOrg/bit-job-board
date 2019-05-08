@@ -5,6 +5,7 @@ from flask_restplus import Resource, Namespace, fields
 
 # from flask_app.qtools import ContractQuery
 from flask_app.search.contract import ContractQuery
+from flask_app.qtools import ContractClass
 from flask_jwt_extended import current_user, jwt_required
 
 contractapi = Namespace("Contracts", description="Contracts Api")
@@ -53,8 +54,8 @@ class Contracts(Resource):
     def post(self):
         try:
             data = contractapi.payload
-            ContractQuery().create(
-                author=current_user.username,
+            ContractClass().create(
+                author=data["author"],
                 title=data["title"],
                 description=data["description"],
                 content=data["content"],
@@ -79,7 +80,7 @@ class Contracts(Resource):
     def put(self, contractid):
         try:
             data = json.loads(contractapi.payload)
-            ContractQuery().update(
+            ContractClass().update(
                 author="matt",
                 contractid=contractid,
                 title=data["title"],
@@ -94,4 +95,4 @@ class Contracts(Resource):
             return {"message": f"Error updating Contract: {contractid}"}
 
     def delete(self, contractid):
-        return ContractQuery().delete("matt", contractid)
+        return ContractClass().delete("matt", contractid)

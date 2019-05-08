@@ -1,5 +1,8 @@
 import datetime
 import logging
+import uuid
+import os
+from elasticsearch import Elasticsearch
 from flask import json
 from flask_app.db_init import FlaskDocument
 from flask_app.models.user import User
@@ -7,7 +10,7 @@ from flask_app.models.job import Job
 from flask_app.models.contract import Contract
 from flask_app.messaging import MessageHandler
 from flask_app.apiv1 import api
-from flask_app.utils import hashid
+from flask_app.elastic import settings
 
 
 def register(app):
@@ -22,6 +25,14 @@ def register(app):
     @app.cli.command()
     def createMessages():
         Message().run()
+
+    @app.cli.command()
+    def deleteIndex():
+        Elasto().deleteIndex()
+
+    @app.cli.command()
+    def createIndex():
+        Elasto().createIndex()
 
     # @app.cli.command()
     # def getPostmanCollection():
@@ -81,11 +92,10 @@ class PopulateDB:
             ("Job2", "System Administrator", "joe", "Closed"),
             ("Job3", "Programmer", "joe", "Open"),
         ):
-            user = User.objects
 
             Job(
-                jobid=hashid(),
-                author=user.get(username=author),
+                jobid=uuid.uuid1().hex,
+                author=author,
                 title=title,
                 description=description,
                 publishdate=datetime.datetime.utcnow().isoformat(" ", "seconds"),
@@ -99,11 +109,10 @@ class PopulateDB:
             ("Contract2", "Data Mining", "content", "joe", "Completed", 323, 300),
             ("Contract3", "Dashboard", "content", "joe", "In Progress", 132, 120),
         ):
-            user = User.objects
 
             Contract(
-                contractid=hashid(),
-                author=user.get(username=author),
+                contractid=uuid.uuid1().hex,
+                author=author,
                 title=title,
                 description=description,
                 content=content,
@@ -131,3 +140,15 @@ class Postman:
     def getPostmanCollection(self):
         data = api.as_postman(urlvars=False, swagger=True)
         print(json.dumps(data))
+
+
+class Elasto:
+    def deleteIndex(self):
+        es = Elasticsearch([os.getenv("ELASTICSEARCH_URL")])
+        es.indices.delete(index="job", ignore=[400, 404])
+        es.indices.delete(index="contract", ignore=[400, 404])
+
+    def createIndex(self):
+        es = Elasticsearch([os.getenv("ELASTICSEARCH_URL")])
+        es.indices.create(index="job", ignore=[400, 404], body=settings)
+        es.indices.create(index="contract", ignore=[400, 404], body=settings)

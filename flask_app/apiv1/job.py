@@ -1,7 +1,12 @@
 import json
-from flask import request
+import logging
+from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
-from flask_app.qtools import JobQuery
+from flask_app.search.job import JobQuery
+from flask_app.qtools import JobClass
+
+log = logging.getLogger(__name__)
+
 
 jobapi = Namespace("Jobs", description="Jobs Api")
 
@@ -22,20 +27,26 @@ jobs = jobapi.model(
 @jobapi.route("/")
 class Jobs(Resource):
     @jobapi.doc(
-        params={"search": "Search", "author": "Publisher", "title": "Job Title"}
+        params={
+            "description": "Description",
+            "author": "Publisher",
+            "title": "Job Title",
+        }
     )
     def get(self):
-        return JobQuery().search(
-            search=request.args.get("search"),
-            author=request.args.get("author"),
-            title=request.args.get("title"),
-        )
+        try:
+            print(request.args.to_dict())
+            hits = JobQuery().search(1, 100, **request.args.to_dict())
+            return jsonify(hits)
+        except Exception:
+            log.exception("Error Getting Contracts")
+            return {"message": "Error Getting Contracts"}
 
     @jobapi.expect(jobs)
     def post(self):
         data = jobapi.payload
         print(data)
-        return JobQuery().create(
+        return JobClass().create(
             author=data["author"],
             title=data["title"],
             description=data["description"],
@@ -56,7 +67,7 @@ class Jobs(Resource):
     def put(self, jobid):
         data = jobapi.payload
         data = json.loads(data)
-        return JobQuery().update(
+        return JobClass().update(
             author="matt",
             jobid=jobid,
             title=data["title"],
@@ -67,4 +78,4 @@ class Jobs(Resource):
         )
 
     def delete(self, jobid):
-        return JobQuery().delete("matt", jobid)
+        return JobClass().delete("matt", jobid)

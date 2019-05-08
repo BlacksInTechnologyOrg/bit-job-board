@@ -19,6 +19,9 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     app.logger.info("Config: %s" % config_name)
 
+    # from dotenv import load_dotenv, find_dotenv
+    # load_dotenv(find_dotenv())
+
     #  Logging
     import logging
 
@@ -48,12 +51,12 @@ def create_app(config_name):
     app.db = db
     app.db.init_app(app)
 
-    # Elasticsearch
-    from elasticsearch_dsl import connections
-
-    connections.create_connection(
-        alias="bonsai", hosts=[os.getenv("ELASTICSEARCH_URL")], timeout=60
-    )
+    # # Elasticsearch
+    # from elasticsearch_dsl import connections
+    #
+    # connections.create_connection(
+    #     alias="bonsai", hosts=[os.getenv("ELASTICSEARCH_URL")], timeout=60
+    # )
 
     # Business Logic
     # http://flask.pocoo.org/docs/patterns/packages/

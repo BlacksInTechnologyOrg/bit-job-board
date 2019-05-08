@@ -1,9 +1,12 @@
 [[source]]
+
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
+
 "aniso8601" = "==3.0.2"
 blinker = "==1.4"
 cached-property = "==1.5.1"
@@ -25,18 +28,18 @@ six = "==1.11.0"
 toml = "==0.10.0"
 virtualenv = "==16.0.0"
 "aspy.yaml" = "==1.1.1"
-Flask = "==1.0.2"
-Flask-Cors = "==3.0.6"
-Flask-JWT-Extended = "==3.10.0"
-Flask-Mail = "==0.9.1"
-Flask-WTF = "==0.14.2"
-"Jinja2" = "==2.10"
-MarkupSafe = "==1.0"
-pre_commit = "==1.11.2"
-PyJWT = "==1.6.4"
-PyYAML = "==3.13"
-Werkzeug = "==0.14.1"
-WTForms = "==2.2.1"
+flask = "==1.0.2"
+flask-cors = "==3.0.6"
+flask-jwt-extended = "==3.10.0"
+flask-mail = "==0.9.1"
+flask-wtf = "==0.14.2"
+"jinja2" = "==2.10"
+markupsafe = "==1.0"
+pre-commit = "==1.11.2"
+pyjwt = "==1.6.4"
+pyyaml = "==3.13"
+werkzeug = "==0.14.1"
+wtforms = "==2.2.1"
 pytest = "*"
 mongo-connector = "*"
 "elastic2-doc-manager" = {extras = ["elastic6"], version = "*"}
@@ -44,10 +47,14 @@ elasticsearch = "*"
 certifi = "*"
 elasticsearch-dsl = "*"
 
+
 [dev-packages]
+
 coverage = "*"
 mongomock = "*"
 pytest-cov = "*"
 
+
 [requires]
+
 python_version = "3.6"
