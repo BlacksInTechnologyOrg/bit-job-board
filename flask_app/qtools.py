@@ -33,14 +33,12 @@ class JobClass:
 
     def update(self, author, jobid, **kwargs):
         try:
-            "Removing "
+            "Removing empty key value pairs"
             for k in list(kwargs.keys()):
                 if not kwargs[k]:
                     kwargs.pop(k)
 
-            Job.objects(author__exact=User.objects.get(username=author)).get_or_404(
-                jobid=jobid
-            ).update(**kwargs)
+            Job.objects(author__exact=author).get_or_404(jobid=jobid).update(**kwargs)
             return {"message": "Updated Job"}
         except Exception:
             logging.exception("Oops!")
@@ -48,9 +46,7 @@ class JobClass:
 
     def delete(self, author, id):
         try:
-            Job.objects(author__exact=User.objects.get(username=author)).get_or_404(
-                jobid=id
-            ).delete()
+            Job.objects(author__exact=author).get_or_404(jobid=id).delete()
             return {"message": "Job Deleted!"}
         except DoesNotExist:
             return {"message": f"Job ID {id} does not exist!"}
@@ -86,9 +82,9 @@ class ContractClass:
             for k in list(kwargs.keys()):
                 if not kwargs[k]:
                     kwargs.pop(k)
-            Contract.objects(author__exact=User.objects.get(username=author)).get(
-                contractid=contractid
-            ).update(**kwargs)
+            Contract.objects(author__exact=author).get(contractid=contractid).update(
+                **kwargs
+            )
             return {"message": "Updated Contract"}
         except DoesNotExist:
             logging.exception("Contract ID does not exist")
@@ -98,9 +94,7 @@ class ContractClass:
 
     def delete(self, author, contractid):
         try:
-            Contract.objects(
-                author__exact=User.objects.get(username=author)
-            ).get_or_404(contractid=contractid).delete()
+            Contract.objects(author__exact=author).get(contractid=contractid).delete()
             return {"message": "Contract Deleted!"}
         except DoesNotExist:
             logging.exception("Contract ID does not exist")

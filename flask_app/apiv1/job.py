@@ -1,5 +1,6 @@
 import json
 import logging
+import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
 from flask_app.search.job import JobQuery
@@ -44,13 +45,12 @@ class Jobs(Resource):
 
     @jobapi.expect(jobs)
     def post(self):
-        data = jobapi.payload
-        print(data)
+        data = json.loads(jobapi.payload)
         return JobClass().create(
             author=data["author"],
             title=data["title"],
-            description=data["description"],
-            content=data["content"],
+            description=urllib.parse.unquote(data["description"]),
+            content=urllib.parse.unquote(data["content"]),
             tags=data["tags"],
         )
 
@@ -58,10 +58,16 @@ class Jobs(Resource):
 @jobapi.route("/<string:jobid>")  # noqa: F811
 class Jobs(Resource):
     def get(self, jobid):
-        print(jobid)
-        resp = JobQuery().search(jobid=jobid)
-        print(resp)
-        return resp
+        try:
+            log.debug(jobid)
+            resp = JobQuery().search(1, 100, jobid=jobid)
+            log.debug(resp)
+            if resp:
+                return resp
+            else:
+                return jsonify({"message": "Job ID Does Not Exist"})
+        except Exception:
+            return {"message": f"Error Getting {jobid}"}
 
     @jobapi.expect(jobs)
     def put(self, jobid):
@@ -71,8 +77,8 @@ class Jobs(Resource):
             author="matt",
             jobid=jobid,
             title=data["title"],
-            description=data["description"],
-            content=data["content"],
+            description=urllib.parse.unquote(data["description"]),
+            content=urllib.parse.unquote(data["content"]),
             tags=data["tags"],
             status=data["status"],
         )

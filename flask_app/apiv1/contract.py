@@ -1,5 +1,6 @@
 import json
 import logging
+import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
 
@@ -7,6 +8,8 @@ from flask_restplus import Resource, Namespace, fields
 from flask_app.search.contract import ContractQuery
 from flask_app.qtools import ContractClass
 from flask_jwt_extended import current_user, jwt_required
+
+log = logging.getLogger(__name__)
 
 contractapi = Namespace("Contracts", description="Contracts Api")
 
@@ -53,12 +56,12 @@ class Contracts(Resource):
     @contractapi.expect(contracts)
     def post(self):
         try:
-            data = contractapi.payload
+            data = json.loads(contractapi.payload)
             ContractClass().create(
                 author=data["author"],
                 title=data["title"],
-                description=data["description"],
-                content=data["content"],
+                description=urllib.parse.unquote(data["description"]),
+                content=urllib.parse.unquote(data["content"]),
                 ask_price=data["ask_price"],
                 tags=data["tags"],
             )
@@ -71,10 +74,17 @@ class Contracts(Resource):
 @contractapi.route("/<string:contractid>")  # noqa: F811
 class Contracts(Resource):
     def get(self, contractid):
-        print(contractid)
-        respdict = ContractQuery().search(contractid=contractid)
-        print(respdict)
-        return respdict
+        try:
+            log.debug(contractid)
+            resp = ContractQuery().search(1, 100, contractid=contractid)
+            log.debug(resp)
+            if resp:
+                return resp
+            else:
+                return jsonify({"message": "Contract ID Does Not Exist"})
+        except Exception:
+            log.exception("Error Getting Contract: " + contractid)
+            return {"message": f"Error Getting {contractid}"}
 
     @contractapi.expect(contracts)
     def put(self, contractid):
@@ -84,9 +94,9 @@ class Contracts(Resource):
                 author="matt",
                 contractid=contractid,
                 title=data["title"],
-                description=data["description"],
+                description=urllib.parse.unquote(data["description"]),
+                content=urllib.parse.unquote(data["content"]),
                 ask_price=data["ask_price"],
-                content=data["content"],
                 tags=data["tags"],
             )
             return {"message": "Updated Contract"}

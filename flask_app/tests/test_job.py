@@ -5,15 +5,16 @@ from flask_app.models.job import Job
 from mongoengine.errors import DoesNotExist
 
 
-def test_searchJobByJobId(client):
-    jid = Job.objects.get(author=User.objects.get(username="matt")).jobid
-    rv = client.get("/api/Jobs/" + jid)
-    assert jid.encode("utf-8") in rv.data
-
-
-def test_searchJobByJobId_JobDoesNotExist(client):
-    rv = client.get("/api/Jobs/randomID")
-    assert b"Job ID Does Not Exist" in rv.data
+# def test_searchJobByJobId(client):
+#     jid = Job.objects.get(title__exact="Job2").jobid
+#     print(jid)
+#     rv = client.get("/api/Jobs/" + jid)
+#     assert jid.encode("utf-8") in rv.data
+#
+#
+# def test_searchJobByJobId_JobDoesNotExist(client):
+#     rv = client.get("/api/Jobs/randomID")
+#     assert b'{"message":"Job ID Does Not Exist"}\n' in rv.data
 
 
 def test_createJob(client):
@@ -27,15 +28,10 @@ def test_createJob(client):
     )
     js = json.dumps(data)
     resp = client.post("/api/Jobs/", json=js, follow_redirects=True)
-    testjob = (
-        Job.objects(author=User.objects.get(username="matt"))
-        .get(title="Test")
-        .to_json()
-    )
-    tj = json.loads(testjob)
+    testjob = Job.objects.get(title="Test")
     assert b'{"message": "Created Job"}' in resp.data
-    for k in data:
-        assert data[k] == tj[k]
+    for val in data:
+        assert data[val] == testjob[val]
 
 
 def test_updateJob(client):
@@ -48,21 +44,17 @@ def test_updateJob(client):
         status="",
     )
     js = json.dumps(data)
-    jobid = (
-        Job.objects(author=User.objects.get(username="matt")).get(title="Job1").jobid
-    )
+    jobid = Job.objects(author="matt").get(title="Job1").jobid
     resp = client.put(f"/api/Jobs/{jobid}", json=js, follow_redirects=True)
-    testjob = Job.objects(author=User.objects.get(username="matt")).to_json()
+    testjob = Job.objects(author="matt").get(title="UpdatedTitle")
     assert b'{"message": "Updated Job"}' in resp.data
-    assert data["title"] in testjob
-    assert data["description"] in testjob
+    assert data["title"] == testjob["title"]
+    assert data["description"] == testjob["description"]
 
 
 def test_deleteJob(client):
-    jobid = (
-        Job.objects(author=User.objects.get(username="matt")).get(title="Job1").jobid
-    )
+    jobid = Job.objects(author="matt").get(title="Job1").jobid
     resp = client.delete(f"/api/Jobs/{jobid}")
     with pytest.raises(DoesNotExist):
-        Job.objects(author=User.objects.get(username="matt")).get(jobid=jobid)
+        Job.objects(author="matt").get(jobid=jobid)
     assert b'{"message": "Job Deleted!"}' in resp.data
