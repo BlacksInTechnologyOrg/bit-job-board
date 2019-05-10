@@ -1,7 +1,7 @@
 import json
 import pytest
 from flask_app.models.user import User
-from flask_app.models.contract import Contract
+from flask_app.models.contractmodel import ContractModel
 from mongoengine.errors import DoesNotExist
 from mongoengine import connect
 
@@ -29,7 +29,7 @@ def test_createContract(client):
     )
     js = json.dumps(data)
     resp = client.post("/api/Contracts/", json=js, follow_redirects=True)
-    testContract = Contract.objects.get(title="Test")
+    testContract = ContractModel.objects.get(title="Test")
     assert b'{"message": "Created Contract"}' in resp.data
     for k in data:
         assert data[k] == testContract[k]
@@ -46,17 +46,17 @@ def test_updateContract(client):
         status="",
     )
     js = json.dumps(data)
-    contractid = Contract.objects(author="matt").get(title="Contract1").contractid
+    contractid = ContractModel.objects(author="matt").get(title="Contract1").contractid
     resp = client.put(f"/api/Contracts/{contractid}", json=js, follow_redirects=True)
-    testContract = Contract.objects(author="matt").get(title="UpdatedTitle")
+    testContract = ContractModel.objects(author="matt").get(title="UpdatedTitle")
     assert b'{"message": "Updated Contract"}' in resp.data
     assert data["title"] == testContract["title"]
     assert data["description"] == testContract["description"]
 
 
 def test_deleteContract(client):
-    contractid = Contract.objects(author="matt").get(title="Contract1").contractid
+    contractid = ContractModel.objects(author="matt").get(title="Contract1").contractid
     resp = client.delete(f"/api/Contracts/{contractid}")
     with pytest.raises(DoesNotExist):
-        Contract.objects(author="matt").get(contractid=contractid)
+        ContractModel.objects(author="matt").get(contractid=contractid)
     assert b'{"message": "Contract Deleted!"}' in resp.data

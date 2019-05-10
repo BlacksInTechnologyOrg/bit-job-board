@@ -13,7 +13,7 @@ class CustomQuerySet(BaseQuerySet):
         return "[%s]" % (",".join([doc.to_json() for doc in self]))
 
 
-class Job(FlaskDocument):
+class JobModel(FlaskDocument):
     jobid = db.StringField(unique=True)
     author = db.StringField()
     type = db.ListField(default=[])
@@ -24,16 +24,7 @@ class Job(FlaskDocument):
     tags = db.ListField(default=[])
     status = db.StringField(choices=job_status)
 
-    # meta = {
-    #     "queryset_class": CustomQuerySet,
-    #     "indexes": [
-    #         {
-    #             "fields": ["$title", "$description", "$content"],
-    #             "default_language": "english",
-    #             "weights": {"title": 10, "description": 8, "content": 2},
-    #         }
-    #     ],
-    # }
+    meta = {"queryset_class": CustomQuerySet}
 
     def to_json(self):
         data = self.to_mongo()
@@ -45,4 +36,4 @@ class Job(FlaskDocument):
         user = User.objects(username__exact=self.author).get()
         user.jobs.append(self.jobid)
         user.save()
-        super(Job, self).save(*args, **kwargs)
+        super(JobModel, self).save(*args, **kwargs)

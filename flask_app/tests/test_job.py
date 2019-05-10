@@ -1,7 +1,7 @@
 import json
 import pytest
 from flask_app.models.user import User
-from flask_app.models.job import Job
+from flask_app.models.jobmodel import JobModel
 from mongoengine.errors import DoesNotExist
 
 
@@ -28,7 +28,7 @@ def test_createJob(client):
     )
     js = json.dumps(data)
     resp = client.post("/api/Jobs/", json=js, follow_redirects=True)
-    testjob = Job.objects.get(title="Test")
+    testjob = JobModel.objects.get(title="Test")
     assert b'{"message": "Created Job"}' in resp.data
     for val in data:
         assert data[val] == testjob[val]
@@ -44,17 +44,17 @@ def test_updateJob(client):
         status="",
     )
     js = json.dumps(data)
-    jobid = Job.objects(author="matt").get(title="Job1").jobid
+    jobid = JobModel.objects(author="matt").get(title="Job1").jobid
     resp = client.put(f"/api/Jobs/{jobid}", json=js, follow_redirects=True)
-    testjob = Job.objects(author="matt").get(title="UpdatedTitle")
+    testjob = JobModel.objects(author="matt").get(title="UpdatedTitle")
     assert b'{"message": "Updated Job"}' in resp.data
     assert data["title"] == testjob["title"]
     assert data["description"] == testjob["description"]
 
 
 def test_deleteJob(client):
-    jobid = Job.objects(author="matt").get(title="Job1").jobid
+    jobid = JobModel.objects(author="matt").get(title="Job1").jobid
     resp = client.delete(f"/api/Jobs/{jobid}")
     with pytest.raises(DoesNotExist):
-        Job.objects(author="matt").get(jobid=jobid)
+        JobModel.objects(author="matt").get(jobid=jobid)
     assert b'{"message": "Job Deleted!"}' in resp.data

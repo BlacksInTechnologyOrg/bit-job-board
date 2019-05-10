@@ -3,8 +3,8 @@ import logging
 import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
-from flask_app.search.job import JobQuery
-from flask_app.qtools import JobClass
+from flask_app.job.jobquery import JobQuery
+from flask_app.job.job import Job
 
 log = logging.getLogger(__name__)
 
@@ -18,9 +18,7 @@ jobs = jobapi.model(
         "title": fields.String(required=True, description="Title"),
         "description": fields.String(required=True, description="Description"),
         "content": fields.String(required=True, description="Content"),
-        "tags": fields.String(
-            required=True, description="Tags comma-separated", example="a,b,c"
-        ),
+        "tags": fields.List(fields.String(required=True, description="Tags")),
     },
 )
 
@@ -46,7 +44,7 @@ class Jobs(Resource):
     @jobapi.expect(jobs)
     def post(self):
         data = json.loads(jobapi.payload)
-        return JobClass().create(
+        return Job().create(
             author=data["author"],
             title=data["title"],
             description=urllib.parse.unquote(data["description"]),
@@ -73,7 +71,7 @@ class Jobs(Resource):
     def put(self, jobid):
         data = jobapi.payload
         data = json.loads(data)
-        return JobClass().update(
+        return Job().update(
             author="matt",
             jobid=jobid,
             title=data["title"],
@@ -84,4 +82,4 @@ class Jobs(Resource):
         )
 
     def delete(self, jobid):
-        return JobClass().delete("matt", jobid)
+        return Job().delete("matt", jobid)

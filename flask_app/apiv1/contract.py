@@ -3,11 +3,8 @@ import logging
 import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
-
-# from flask_app.qtools import ContractQuery
-from flask_app.search.contract import ContractQuery
-from flask_app.qtools import ContractClass
-from flask_jwt_extended import current_user, jwt_required
+from flask_app.contract.contractquery import ContractQuery
+from flask_app.contract.contract import Contract
 
 log = logging.getLogger(__name__)
 
@@ -20,8 +17,8 @@ contracts = contractapi.model(
         "description": fields.String(required=True, description="Description"),
         "content": fields.String(required=True, description="Content"),
         "ask_price": fields.String(required=True, description="Ask Price"),
-        "tags": fields.String(
-            required=True, description="Tags comma-separated", example="a,b,c"
+        "tags": fields.List(
+            fields.String(required=True, description="Tags comma-separated")
         ),
     },
 )
@@ -39,13 +36,6 @@ class Contracts(Resource):
     )
     def get(self):
         try:
-            print(request.args.to_dict())
-            # if len(request.args) == 0:
-            #     return ContractQuery().search()
-            # else:
-            #     # respdict = ContractQuery().search(**request.args.to_dict())
-            #     hits = ContractQuery().search(1,100)
-            #     return jsonify(hits)
             hits = ContractQuery().search(1, 100, **request.args.to_dict())
             return jsonify(hits)
         except Exception:
@@ -57,7 +47,7 @@ class Contracts(Resource):
     def post(self):
         try:
             data = json.loads(contractapi.payload)
-            ContractClass().create(
+            Contract().create(
                 author=data["author"],
                 title=data["title"],
                 description=urllib.parse.unquote(data["description"]),
@@ -90,7 +80,7 @@ class Contracts(Resource):
     def put(self, contractid):
         try:
             data = json.loads(contractapi.payload)
-            ContractClass().update(
+            Contract().update(
                 author="matt",
                 contractid=contractid,
                 title=data["title"],
@@ -105,4 +95,4 @@ class Contracts(Resource):
             return {"message": f"Error updating Contract: {contractid}"}
 
     def delete(self, contractid):
-        return ContractClass().delete("matt", contractid)
+        return Contract().delete("matt", contractid)

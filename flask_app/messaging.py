@@ -1,6 +1,6 @@
 import json
 import logging
-from flask_app.utils import hashid
+import uuid
 from flask_app.models.messaging import Conversation, Message
 from mongoengine.queryset.visitor import Q
 from flask_app.errors import MessageNotFoundError
@@ -11,7 +11,7 @@ class MessageHandler:
         try:
             conversation = Conversation()
             usermessage = Message()
-            id = hashid()
+            id = uuid.uuid1().hex
 
             # Conversation Collection
             conversation.conversationId = id

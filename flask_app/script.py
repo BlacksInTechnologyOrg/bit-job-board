@@ -6,8 +6,8 @@ from elasticsearch import Elasticsearch
 from flask import json
 from flask_app.db_init import FlaskDocument
 from flask_app.models.user import User
-from flask_app.models.job import Job
-from flask_app.models.contract import Contract
+from flask_app.models.jobmodel import JobModel
+from flask_app.models.contractmodel import ContractModel
 from flask_app.messaging import MessageHandler
 from flask_app.apiv1 import api
 from flask_app.elastic import settings
@@ -93,7 +93,7 @@ class PopulateDB:
             ("Job3", "Programmer", "joe", "Open"),
         ):
 
-            Job(
+            JobModel(
                 jobid=uuid.uuid1().hex,
                 author=author,
                 title=title,
@@ -110,7 +110,7 @@ class PopulateDB:
             ("Contract3", "Dashboard", "content", "joe", "In Progress", 132, 120),
         ):
 
-            Contract(
+            ContractModel(
                 contractid=uuid.uuid1().hex,
                 author=author,
                 title=title,
