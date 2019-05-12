@@ -3,8 +3,8 @@ import logging
 import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
-from flask_app.contract.contractquery import ContractQuery
-from flask_app.contract.contract import Contract
+from ..contract.contractquery import ContractQuery
+from ..contract.contract import Contract
 
 log = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class Contracts(Resource):
     @contractapi.expect(contracts)
     def post(self):
         try:
-            data = json.loads(contractapi.payload)
+            data = contractapi.payload
             Contract().create(
                 author=data["author"],
                 title=data["title"],
@@ -79,7 +79,7 @@ class Contracts(Resource):
     @contractapi.expect(contracts)
     def put(self, contractid):
         try:
-            data = json.loads(contractapi.payload)
+            data = contractapi.payload
             Contract().update(
                 author="matt",
                 contractid=contractid,

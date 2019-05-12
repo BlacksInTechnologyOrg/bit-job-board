@@ -7,9 +7,11 @@ from flask_jwt_extended import (
     current_user,
 )
 from flask_restplus import Api, Resource, Namespace
-from flask_app.errors import UserNotFoundError
-from flask_app.messaging import MessageHandler
-from flask_app.models.user import User
+from ..errors import UserNotFoundError
+from ..messaging import MessageHandler
+from ..models.user import User
+
+# TODO: Fix F811 flake8 errors
 
 log = logging.getLogger(__name__)
 
@@ -17,7 +19,7 @@ userapi = Namespace("users", description="Authorization API")
 mh = MessageHandler()
 
 
-@userapi.route("/Foo")
+@userapi.route("/Foo")  # noqa: F811
 class Users(Resource):
     @jwt_required
     def get(self):
@@ -32,7 +34,7 @@ class Users(Resource):
         return {"message": "Hi! {USER}".format(USER=current_user.username)}
 
 
-@userapi.route("/newMessage")
+@userapi.route("/newMessage")  # noqa: F811
 class Users(Resource):
     @jwt_required
     def post(self):
@@ -53,7 +55,7 @@ class Users(Resource):
             return {"message": "Oops!"}
 
 
-@userapi.route("/getMessage")
+@userapi.route("/getMessage")  # noqa: F811
 class Users(Resource):
     @jwt_required
     def get(self):
@@ -67,7 +69,7 @@ class Users(Resource):
             return {"message": "Oops!"}
 
 
-@userapi.route("/deleteMessage")
+@userapi.route("/deleteMessage")  # noqa: F811
 class Users(Resource):
     @jwt_required
     def delete(self):

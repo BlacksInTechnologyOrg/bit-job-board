@@ -2,7 +2,7 @@ import logging
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from flask import jsonify, Response
 from flask_restplus import Resource, Namespace, fields
-from flask_app.models.user import User
+from ..models.user import User
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,

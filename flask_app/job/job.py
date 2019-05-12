@@ -1,7 +1,7 @@
 import logging
 import uuid
-from flask_app.models.jobmodel import JobModel
-from flask_app.models.user import User
+from ..models.jobmodel import JobModel
+from ..models.user import User
 from mongoengine.errors import DoesNotExist
 
 log = logging.getLogger(__name__)

@@ -2,7 +2,7 @@ import logging
 import os
 from elasticsearch_dsl import Search, Q, Mapping
 from elasticsearch import Elasticsearch
-from flask_app.searchutils import formatted_query_response
+from ..searchutils import formatted_query_response
 
 log = logging.getLogger(__name__)
 

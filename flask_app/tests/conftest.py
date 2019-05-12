@@ -1,10 +1,10 @@
 import pytest
 import logging
 from flask import current_app
-from flask_app import create_app
-from flask_app.models.user import User
-from flask_app.db_init import db
-from flask_app.script import PopulateDB, ResetDB
+from .. import create_app
+from ..models.user import User
+from ..db_init import db
+from ..script import PopulateDB, ResetDB
 
 
 @pytest.fixture

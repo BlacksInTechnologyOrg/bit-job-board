@@ -1,7 +1,7 @@
 import json
 import pytest
-from flask_app.models.user import User
-from flask_app.models.contractmodel import ContractModel
+from ..models.user import User
+from ..models.contractmodel import ContractModel
 from mongoengine.errors import DoesNotExist
 from mongoengine import connect
 
@@ -28,7 +28,12 @@ def test_createContract(client):
         ask_price=50,
     )
     js = json.dumps(data)
-    resp = client.post("/api/Contracts/", json=js, follow_redirects=True)
+    resp = client.post(
+        "/api/Contracts/",
+        data=js,
+        content_type="application/json",
+        follow_redirects=True,
+    )
     testContract = ContractModel.objects.get(title="Test")
     assert b'{"message": "Created Contract"}' in resp.data
     for k in data:
@@ -45,7 +50,7 @@ def test_updateContract(client):
         tags=[],
         status="",
     )
-    js = json.dumps(data)
+    js = data
     contractid = ContractModel.objects(author="matt").get(title="Contract1").contractid
     resp = client.put(f"/api/Contracts/{contractid}", json=js, follow_redirects=True)
     testContract = ContractModel.objects(author="matt").get(title="UpdatedTitle")

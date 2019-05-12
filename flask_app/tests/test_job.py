@@ -1,7 +1,7 @@
 import json
 import pytest
-from flask_app.models.user import User
-from flask_app.models.jobmodel import JobModel
+from ..models.user import User
+from ..models.jobmodel import JobModel
 from mongoengine.errors import DoesNotExist
 
 
@@ -27,7 +27,9 @@ def test_createJob(client):
         status="Open",
     )
     js = json.dumps(data)
-    resp = client.post("/api/Jobs/", json=js, follow_redirects=True)
+    resp = client.post(
+        "/api/Jobs/", data=js, content_type="application/json", follow_redirects=True
+    )
     testjob = JobModel.objects.get(title="Test")
     assert b'{"message": "Created Job"}' in resp.data
     for val in data:
@@ -45,7 +47,12 @@ def test_updateJob(client):
     )
     js = json.dumps(data)
     jobid = JobModel.objects(author="matt").get(title="Job1").jobid
-    resp = client.put(f"/api/Jobs/{jobid}", json=js, follow_redirects=True)
+    resp = client.put(
+        f"/api/Jobs/{jobid}",
+        data=js,
+        content_type="application/json",
+        follow_redirects=True,
+    )
     testjob = JobModel.objects(author="matt").get(title="UpdatedTitle")
     assert b'{"message": "Updated Job"}' in resp.data
     assert data["title"] == testjob["title"]

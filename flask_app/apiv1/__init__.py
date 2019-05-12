@@ -1,9 +1,9 @@
 from flask import Blueprint
 from flask_restplus import Api
-from flask_app.apiv1.user import userapi
-from flask_app.apiv1.auth import authapi
-from flask_app.apiv1.job import jobapi
-from flask_app.apiv1.contract import contractapi
+from ..apiv1.user import userapi
+from ..apiv1.auth import authapi
+from ..apiv1.job import jobapi
+from ..apiv1.contract import contractapi
 
 
 api1 = Blueprint("api1", __name__, url_prefix="/api")

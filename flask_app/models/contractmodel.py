@@ -1,7 +1,7 @@
 from bson import json_util
-from flask_app.db_init import db, FlaskDocument
+from ..db_init import db, FlaskDocument
 from flask_mongoengine import BaseQuerySet
-from flask_app.models.user import User
+from ..models.user import User
 
 contract_status = ("In Progress", "Completed")
 
@@ -25,6 +25,8 @@ class ContractModel(FlaskDocument):
     agreed_amount = db.IntField()
     tags = db.ListField(default=[])
     status = db.StringField(choices=contract_status, default="In Progress")
+
+    meta = {"queryset_class": CustomQuerySet, "collection": "contract"}
 
     def to_json(self):
         data = self.to_mongo()

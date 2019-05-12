@@ -1,5 +1,5 @@
 import datetime
-from flask_app.db_init import db, FlaskDocument
+from ..db_init import db, FlaskDocument
 from passlib.hash import pbkdf2_sha256 as sha256
 
 

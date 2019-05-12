@@ -1,7 +1,7 @@
 import logging
 import datetime
 import uuid
-from flask_app.models.contractmodel import ContractModel
+from ..models.contractmodel import ContractModel
 from mongoengine.errors import DoesNotExist
 
 log = logging.getLogger(__name__)

@@ -1,22 +1,27 @@
 FROM python:3.6-alpine
 
+# Create a user
 RUN adduser -D bjb
-
+# Set working directory for the purpose of this Dockerfile
 WORKDIR /home/bjb
 
-COPY requirements.txt requirements.txt
-RUN python -m venv venv
-RUN venv/bin/pip install -r requirements.txt
+# Copy requirements to the app root
+COPY Pipfile.lock ./
+# Create a virtual environment and install the dependecies
+COPY Pipfile Pipfile
+RUN pip install pipenv && pipenv install --system --deploy --ignore-pipfile
 
-COPY flask_app flask_app
-COPY front-end/dist front-end/dist
-COPY boot.sh app.py ./
-RUN chmod +x boot.sh
+# Copy the app into our user root
+COPY flask_app/ ./flask_app
+COPY front-end/dist/ ./front-end/
+COPY app.py ./
+#COPY bjb/boot.sh /home/bjb/
 
-ENV FLASK_APP app.py
+# Make our entrypoint executable
+#RUN chmod +x boot.sh
 
-RUN chown -R bjb:bjb ./
+# Set the user
 USER bjb
-
-EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+#ENTRYPOINT ["ash", "./boot.sh"]
+## Set the entrypoint
+CMD ["gunicorn", "-b", "0.0.0.0:5000" , "--access-logfile", "-", "--error-logfile", "-" ,"app:app"]

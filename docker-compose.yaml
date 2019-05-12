@@ -6,13 +6,21 @@ services:
      - ./.env
     restart: always
     image: bitjobboard
-#    volumes:
-#    - "mydata:/home/bjb/front-end/dist"
     build:
       context: .
       dockerfile: Dockerfile
     ports:
     - "8080:5000"
+  monstache:
+    image: rwynn/monstache:4.17.3
+    container_name: monstache
+    working_dir: /app
+    env_file:
+     - ./monstache/.env
+    command: -f ./config.toml -verbose
+    volumes:
+      - ./monstache/config.toml:/app/config.toml
+    restart: always
 #  bjb-nginx:
 #    image: nginx
 #    volumes:

@@ -4,13 +4,13 @@ import uuid
 import os
 from elasticsearch import Elasticsearch
 from flask import json
-from flask_app.db_init import FlaskDocument
-from flask_app.models.user import User
-from flask_app.models.jobmodel import JobModel
-from flask_app.models.contractmodel import ContractModel
-from flask_app.messaging import MessageHandler
-from flask_app.apiv1 import api
-from flask_app.elastic import settings
+from .db_init import FlaskDocument
+from .models.user import User
+from .models.jobmodel import JobModel
+from .models.contractmodel import ContractModel
+from .messaging import MessageHandler
+from .apiv1 import api
+from .elastic import settings
 
 
 def register(app):

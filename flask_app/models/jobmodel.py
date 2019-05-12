@@ -1,9 +1,9 @@
 import datetime
 import uuid
 from bson import json_util
-from flask_app.db_init import db, FlaskDocument
+from ..db_init import db, FlaskDocument
 from flask_mongoengine import BaseQuerySet
-from flask_app.models.user import User
+from ..models.user import User
 
 job_status = ("Open", "Closed")
 
@@ -24,7 +24,7 @@ class JobModel(FlaskDocument):
     tags = db.ListField(default=[])
     status = db.StringField(choices=job_status)
 
-    meta = {"queryset_class": CustomQuerySet}
+    meta = {"queryset_class": CustomQuerySet, "collection": "job"}
 
     def to_json(self):
         data = self.to_mongo()

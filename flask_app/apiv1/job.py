@@ -3,8 +3,8 @@ import logging
 import urllib.parse
 from flask import request, jsonify
 from flask_restplus import Resource, Namespace, fields
-from flask_app.job.jobquery import JobQuery
-from flask_app.job.job import Job
+from ..job.jobquery import JobQuery
+from ..job.job import Job
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,7 @@ class Jobs(Resource):
     )
     def get(self):
         try:
-            print(request.args.to_dict())
+            log.debug(request.args.to_dict())
             hits = JobQuery().search(1, 100, **request.args.to_dict())
             return jsonify(hits)
         except Exception:
@@ -43,7 +43,7 @@ class Jobs(Resource):
 
     @jobapi.expect(jobs)
     def post(self):
-        data = json.loads(jobapi.payload)
+        data = jobapi.payload
         return Job().create(
             author=data["author"],
             title=data["title"],
@@ -70,7 +70,6 @@ class Jobs(Resource):
     @jobapi.expect(jobs)
     def put(self, jobid):
         data = jobapi.payload
-        data = json.loads(data)
         return Job().update(
             author="matt",
             jobid=jobid,

@@ -1,9 +1,9 @@
 import json
 import logging
 import uuid
-from flask_app.models.messaging import Conversation, Message
+from .models.messaging import Conversation, Message
 from mongoengine.queryset.visitor import Q
-from flask_app.errors import MessageNotFoundError
+from .errors import MessageNotFoundError
 
 
 class MessageHandler:

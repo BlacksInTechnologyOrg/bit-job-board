@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import os
-from flask_app.config import config
+from .config import config
 
 FRONTEND_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "front-end")
@@ -20,6 +20,7 @@ def create_app(config_name):
     app.logger.info("Config: %s" % config_name)
 
     # from dotenv import load_dotenv, find_dotenv
+    # print(find_dotenv())
     # load_dotenv(find_dotenv())
 
     #  Logging
@@ -31,7 +32,7 @@ def create_app(config_name):
         datefmt="%Y%m%d-%H:%M%p",
     )
 
-    from flask_app.apiv1.auth import jwt
+    from .apiv1.auth import jwt
 
     jwt.init_app(app)
 
@@ -46,7 +47,7 @@ def create_app(config_name):
     app.mail = Mail(app)
 
     # MongoEngine
-    from flask_app.db_init import db
+    from .db_init import db
 
     app.db = db
     app.db.init_app(app)
@@ -61,11 +62,11 @@ def create_app(config_name):
     # Business Logic
     # http://flask.pocoo.org/docs/patterns/packages/
     # http://flask.pocoo.org/docs/blueprints/
-    from flask_app.apiv1 import api1
+    from .apiv1 import api1
 
     app.register_blueprint(api1)
 
-    # from flask_app.script import resetdb, populatedb
+    # from .script import resetdb, populatedb
     # # Click Commands
     # app.cli
     # app.cli.add_command(resetdb)
