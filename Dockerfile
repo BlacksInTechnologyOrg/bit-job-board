@@ -13,7 +13,7 @@ RUN pip install pipenv && pipenv install --system --deploy --ignore-pipfile
 
 # Copy the app into our user root
 COPY flask_app/ ./flask_app
-COPY front-end/dist/ ./front-end/
+COPY front-end/dist/ ./front-end/dist
 COPY app.py ./
 #COPY bjb/boot.sh /home/bjb/
 

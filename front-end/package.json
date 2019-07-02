@@ -14,7 +14,6 @@
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue-chartist": "^2.1.2",
-    "vue-cookie": "^1.1.4",
     "vue-meta": "^1.5.2",
     "vuetify": "^1.2.5"
   },
